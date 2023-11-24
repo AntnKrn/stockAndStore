@@ -66,5 +66,23 @@ class ProductsData {
             console.log(err, "error from productsdata");
         }
     }
+    static deleteProduct(id) {
+        try {
+            const sql = "DELETE FROM products WHERE productID=?";
+            return new Promise((resolve, reject) => {
+                connection_1.default.query(sql, id, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+        }
+        catch (err) {
+            console.log(err, "error from deleteProduct data");
+        }
+    }
 }
 exports.default = ProductsData;

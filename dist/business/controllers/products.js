@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editProduct = exports.getProducts = exports.addProduct = void 0;
+exports.deleteProduct = exports.editProduct = exports.getProducts = exports.addProduct = void 0;
 const products_1 = require("../models/products");
 const Products_1 = __importDefault(require("../../data/Products"));
 const addProduct = async (req, res, next) => {
@@ -54,3 +54,14 @@ const editProduct = async (req, res, next) => {
     }
 };
 exports.editProduct = editProduct;
+const deleteProduct = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        await Products_1.default.deleteProduct(id);
+        res.status(201).json({ message: "Deleted", id: id });
+    }
+    catch (err) {
+        console.log("error from deleteProduct controller", err);
+    }
+};
+exports.deleteProduct = deleteProduct;

@@ -53,3 +53,14 @@ export const editProduct: RequestHandler<{id: number}> = async (req, res, next) 
         console.log("error from editPorduct controller", err);
     }
 }
+
+export const deleteProduct: RequestHandler<{id: number}> = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        
+        await ProductsData.deleteProduct(id);
+        res.status(201).json({ message: "Deleted", id: id})
+    } catch(err) {
+        console.log("error from deleteProduct controller", err);
+    }
+}
