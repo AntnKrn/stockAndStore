@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-import { Provider } from '../models/providers';
+import { Provider } from '../models/Provider';
 import ProvidersData from "../../data/Providers";
 
 export const getProviders: RequestHandler = async (req, res, next) => {

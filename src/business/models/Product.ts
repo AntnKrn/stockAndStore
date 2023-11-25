@@ -1,4 +1,4 @@
-export class Products {
+export class Product {
     constructor(
         public name: string,
         public brand: string,

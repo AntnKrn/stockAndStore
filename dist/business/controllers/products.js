@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProduct = exports.editProduct = exports.getProducts = exports.addProduct = void 0;
-const products_1 = require("../models/products");
+const Product_1 = require("../models/Product");
 const Products_1 = __importDefault(require("../../data/Products"));
 const addProduct = async (req, res, next) => {
     try {
         const { name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description } = req.body;
-        const newProduct = new products_1.Products(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description);
+        const newProduct = new Product_1.Product(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description);
         await Products_1.default.addProduct(newProduct);
         res.status(201).json({ message: "Product added", addedProduct: newProduct });
     }
@@ -45,7 +45,7 @@ const editProduct = async (req, res, next) => {
     try {
         const id = req.params.id;
         const { name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description } = req.body;
-        const updatedProduct = new products_1.Products(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description, id);
+        const updatedProduct = new Product_1.Product(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description, id);
         await Products_1.default.editProduct(updatedProduct);
         res.status(201).json({ message: "Product added", addedProduct: updatedProduct });
     }

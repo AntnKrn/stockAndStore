@@ -1,11 +1,32 @@
 import connection from "./connection";
 
-export default abstract class ProvidersData {
-    static fetchProviders() {
+export abstract class ClientsData {
+    static addClient(client: object) {
         try {
+            const sql = "INSERT INTO clients (fullname, phoneNumber, address) VALUES (?,?,?)";
+            const data = Object.values(client);
+
             return new Promise((resolve, reject) => {
-                connection.query('SELECT * from providers', (err, result) => {
-                    if (err) {
+                connection.query(sql, data, (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+        } catch(err) {
+            console.log(err);
+        }
+    } 
+
+    static getClients() {
+        try {
+            const sql = "SELECT * FROM clients";
+
+            return new Promise((resolve, reject) => {
+                connection.query(sql, (err, result) => {
+                    if(err) {
                         reject(err);
                     } else {
                         resolve(result);
@@ -17,58 +38,40 @@ export default abstract class ProvidersData {
         }
     }
 
-    static postProvider(provider: object) {
+    static editClient(client: object) {
         try {
-            const sql = "INSERT INTO providers (name, phoneNumber, category, address, contactPerson, email) VALUES (?,?,?,?,?,?)";
-            const data = Object.values(provider);
+            const sql = "UPDATE clients SET fullname=?, phoneNumber=?, address=? WHERE clientID = ?";
+            const data = Object.values(client);
+    
             return new Promise((resolve, reject) => {
                 connection.query(sql, data, (err, result) => {
-                    if (err) {
+                    if(err) {
                         reject(err);
                     } else {
                         resolve(result);
                     }
                 });
             });
-        } catch (err) {
-            console.log(err, "Error from data postProvider");
+        } catch(err) {
+            console.log(err);
         }
     }
 
-    static editProvider(provider: object) {
+    static deleteClient(id: number) {
         try {
-            const sql = "UPDATE providers SET name=?, phoneNumber=?, category=?, address=?, contactPerson=?, email=? WHERE providerID=?";
-            const data = Object.values(provider);
-            return new Promise((resolve, reject) => {
-
-                connection.query(sql, data, (err, result) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
-                });
-            });
-        } catch (err) {
-            console.log(err, "error from data editProvider");
-        }
-    }
-
-    static deleteProvider(id: number) {
-        try {
-            const sql = "DELETE FROM providers WHERE providerID=?";
-
+            const sql = "DELETE FROM clients WHERE clientID = ?";
+        
             return new Promise((resolve, reject) => {
                 connection.query(sql, id, (err, result) => {
-                    if (err) {
+                    if(err) {
                         reject(err);
                     } else {
                         resolve(result);
                     }
                 });
             });
-        } catch (err) {
-            console.log(err, "Error from deleteProvider data");
+        } catch(err) {
+            console.log(err);
         }
     }
 }

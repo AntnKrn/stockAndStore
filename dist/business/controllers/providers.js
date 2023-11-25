@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProvider = exports.editProvider = exports.addProvider = exports.getProviders = void 0;
-const providers_1 = require("../models/providers");
+const Provider_1 = require("../models/Provider");
 const Providers_1 = __importDefault(require("../../data/Providers"));
 const getProviders = async (req, res, next) => {
     try {
@@ -27,7 +27,7 @@ exports.getProviders = getProviders;
 const addProvider = async (req, res, next) => {
     try {
         const { name, phoneNumber, category, address, contactPerson, email } = req.body;
-        const newProvider = new providers_1.Provider(name, phoneNumber, category, address, contactPerson, email);
+        const newProvider = new Provider_1.Provider(name, phoneNumber, category, address, contactPerson, email);
         await Providers_1.default.postProvider(newProvider);
         res.status(201).json({ message: 'Created a provider', createdProvider: newProvider });
     }
@@ -40,7 +40,7 @@ const editProvider = async (req, res, next) => {
     try {
         const id = req.params.id;
         const { name, phoneNumber, category, address, contactPerson, email } = req.body;
-        const updatedProvider = new providers_1.Provider(name, phoneNumber, category, address, contactPerson, email, id);
+        const updatedProvider = new Provider_1.Provider(name, phoneNumber, category, address, contactPerson, email, id);
         console.log(updatedProvider);
         await Providers_1.default.editProvider(updatedProvider);
         res.status(201).json({ message: 'Updated a provider', updatedProvider: updatedProvider });

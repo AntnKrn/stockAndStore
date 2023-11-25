@@ -1,12 +1,12 @@
 import { RequestHandler } from "express";
 
-import { Products } from "../models/products";
+import { Product } from "../models/Product";
 import ProductsData from "../../data/Products";
 
 export const addProduct: RequestHandler = async(req, res, next) => {
     try {
-        const { name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description }: Products = req.body;
-        const newProduct = new Products(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description);
+        const { name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description }: Product = req.body;
+        const newProduct = new Product(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description);
 
         await ProductsData.addProduct(newProduct);
         res.status(201).json({ message: "Product added", addedProduct: newProduct })
@@ -19,7 +19,7 @@ export const getProducts: RequestHandler = async (req, res, next) => {
     try {
         const products: any = await ProductsData.getProducts();
 
-        const data = products.map((products: Products) => ({
+        const data = products.map((products: Product) => ({
             name: products.name,
             brand: products.brand,
             code: products.code,
@@ -44,8 +44,8 @@ export const getProducts: RequestHandler = async (req, res, next) => {
 export const editProduct: RequestHandler<{id: number}> = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const { name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description }: Products = req.body;
-        const updatedProduct = new Products(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description, id);
+        const { name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description }: Product = req.body;
+        const updatedProduct = new Product(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description, id);
 
         await ProductsData.editProduct(updatedProduct);
         res.status(201).json({ message: "Product added", addedProduct: updatedProduct }) 

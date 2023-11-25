@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Products = void 0;
-class Products {
+exports.Product = void 0;
+class Product {
     name;
     brand;
     code;
@@ -30,4 +30,4 @@ class Products {
     }
     ;
 }
-exports.Products = Products;
+exports.Product = Product;
