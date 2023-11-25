@@ -9,12 +9,14 @@ const providers_1 = __importDefault(require("./business/routers/providers"));
 const products_1 = __importDefault(require("./business/routers/products"));
 const clients_1 = __importDefault(require("./business/routers/clients"));
 const employees_1 = __importDefault(require("./business/routers/employees"));
+const orders_1 = __importDefault(require("./business/routers/orders"));
 const app = (0, express_1.default)();
 app.use((0, body_parser_1.json)());
 app.use('/providers', providers_1.default);
 app.use('/products', products_1.default);
 app.use('/clients', clients_1.default);
 app.use('/employees', employees_1.default);
+app.use('/orders', orders_1.default);
 app.use((err, req, res) => {
     res.status(500).json({ message: err.message });
 });
