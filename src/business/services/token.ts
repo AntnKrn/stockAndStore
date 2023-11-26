@@ -23,3 +23,8 @@ export const saveToken = async (IDuser: number, refreshToken: string) => {
 
     return token;
 }
+
+export const removeToken = async(refreshToken: string) => {
+    const tokenData = await TokenData.deleteToken(refreshToken);
+    return tokenData;
+}

@@ -63,8 +63,8 @@ class TokenData {
     }
     static updateToken(IDuser, refreshToken) {
         try {
-            const sql = "UPDATE tokens SET IDuser=?, refreshtoken=?";
-            const data = [IDuser, refreshToken];
+            const sql = "UPDATE tokens SET refreshtoken=? WHERE IDuser=?";
+            const data = [refreshToken, IDuser];
             return new Promise((resolve, reject) => {
                 connection_1.default.query(sql, data, (err, result) => {
                     if (err) {
@@ -78,6 +78,24 @@ class TokenData {
         }
         catch (err) {
             console.log(err);
+        }
+    }
+    static deleteToken(refreshToken) {
+        console.log(refreshToken);
+        try {
+            const sql = "DELETE FROM tokens WHERE refreshtoken=?";
+            return new Promise((resolve, reject) => {
+                connection_1.default.query(sql, refreshToken, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+        }
+        catch (err) {
         }
     }
 }
