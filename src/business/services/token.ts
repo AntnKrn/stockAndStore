@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { TokenData } from "../../data/Token";
 
 export const generateTokens = (payload: any) => {
-    const accessToken = jwt.sign({payload}, "access", { expiresIn: '30m'});
+    const accessToken = jwt.sign({payload}, "access", { expiresIn: '30s'});
     const refreshToken = jwt.sign({payload}, "refresh", {expiresIn: '30d'});
 
     return {
@@ -27,4 +27,33 @@ export const saveToken = async (IDuser: number, refreshToken: string) => {
 export const removeToken = async(refreshToken: string) => {
     const tokenData = await TokenData.deleteToken(refreshToken);
     return tokenData;
+}
+
+export const validateAccessToken = (token: string) => {
+    try {
+        const userData = jwt.verify(token, "access");
+        console.log("dsadasadsaadsa", userData);
+        return userData;
+    } catch(err) {
+        console.log("error from validateaccesstokem")
+        return null;
+    }
+}
+
+export const validateRefreshToken = (token: string) => {
+    try {
+        const userData = jwt.verify(token, "refresh");
+        return userData;
+    } catch(err) {
+        console.log("error from validatrefreshtokem")
+        return null;
+    }
+}
+
+export const findToken = async(token: string) => {
+    try {   
+        return TokenData.findToken(token);
+    } catch(err) {
+        console.log(err);
+    }
 }

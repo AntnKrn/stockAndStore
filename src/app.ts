@@ -14,12 +14,15 @@ import clientRouter from './business/routers/clients';
 import employeeRouter from './business/routers/employees';
 import orderRouter from "./business/routers/orders";
 import { errorMiddleware } from './business/middleware/error';
+import refreshRouter from "./business/routers/refresh";
 
 const app = express();
 
 app.use(json());
 app.use(cookieParser());
 app.use(cors());
+
+app.use('/refresh', refreshRouter)
 
 app.use('/users', userRouter);
 

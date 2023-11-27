@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeToken = exports.saveToken = exports.generateTokens = void 0;
+exports.findToken = exports.validateRefreshToken = exports.validateAccessToken = exports.removeToken = exports.saveToken = exports.generateTokens = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const Token_1 = require("../../data/Token");
 const generateTokens = (payload) => {
-    const accessToken = jsonwebtoken_1.default.sign({ payload }, "access", { expiresIn: '30m' });
+    const accessToken = jsonwebtoken_1.default.sign({ payload }, "access", { expiresIn: '30s' });
     const refreshToken = jsonwebtoken_1.default.sign({ payload }, "refresh", { expiresIn: '30d' });
     return {
         accessToken,
@@ -29,3 +29,35 @@ const removeToken = async (refreshToken) => {
     return tokenData;
 };
 exports.removeToken = removeToken;
+const validateAccessToken = (token) => {
+    try {
+        const userData = jsonwebtoken_1.default.verify(token, "access");
+        console.log("dsadasadsaadsa", userData);
+        return userData;
+    }
+    catch (err) {
+        console.log("error from validateaccesstokem");
+        return null;
+    }
+};
+exports.validateAccessToken = validateAccessToken;
+const validateRefreshToken = (token) => {
+    try {
+        const userData = jsonwebtoken_1.default.verify(token, "refresh");
+        return userData;
+    }
+    catch (err) {
+        console.log("error from validatrefreshtokem");
+        return null;
+    }
+};
+exports.validateRefreshToken = validateRefreshToken;
+const findToken = async (token) => {
+    try {
+        return Token_1.TokenData.findToken(token);
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
+exports.findToken = findToken;

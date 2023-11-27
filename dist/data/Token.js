@@ -96,6 +96,25 @@ class TokenData {
             });
         }
         catch (err) {
+            console.log(err);
+        }
+    }
+    static findToken(refreshToken) {
+        console.log(refreshToken);
+        try {
+            const sql = "SELECT * FROM tokens WHERE refreshtoken=?";
+            return new Promise((resolve, reject) => {
+                connection_1.default.query(sql, refreshToken, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+        }
+        catch (err) {
         }
     }
 }

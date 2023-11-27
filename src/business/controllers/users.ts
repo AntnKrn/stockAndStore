@@ -6,7 +6,7 @@ import { User } from "../models/User";
 export const getUsers: RequestHandler = async(req, res, next) => {
     try {
         const data = await UsersData.getUsers();
-
+        
         res.json(data);
     } catch(err) {
         console.log(err);

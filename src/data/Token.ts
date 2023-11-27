@@ -90,7 +90,27 @@ export abstract class TokenData {
                 })
             })
         } catch(err) {
+            console.log(err);
+        }
+    }
+
+    static findToken(refreshToken: string) {
+        console.log(refreshToken);
+        try {
+            const sql = "SELECT * FROM tokens WHERE refreshtoken=?";
+
+            return new Promise((resolve, reject) => {
+                connection.query(sql, refreshToken, (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                })
+            })
+        } catch(err) {
 
         }
     }
+    
 }

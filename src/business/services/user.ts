@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 import { UsersData } from "../../data/Users";
-import { generateTokens, removeToken, saveToken } from "./token";
+import { findToken, generateTokens, removeToken, saveToken, validateRefreshToken } from "./token";
 import { UserDto } from "../dtos/user-dto";
 import { ApiError } from "../exceptions/api-error";
 
@@ -48,3 +48,28 @@ export const logou = async(refreshToken: string) => {
 
     return token;
 } 
+
+export const refresh = async (refreshToken: string) => {
+    if(!refreshToken) {
+        throw ApiError.UnauthorizedError();
+    }
+
+    const userData: any = validateRefreshToken(refreshToken);
+
+    const dataFromDBbyRefreshToken: any = await findToken(refreshToken);
+    const refreshTokenFromDB = dataFromDBbyRefreshToken[0].IDuser;
+    console.log("fdskomfoidsofisd", userData);
+
+    console.log("111111111", refreshTokenFromDB);
+    if(userData.length === 0 || refreshTokenFromDB.length === 0) {
+        throw ApiError.UnauthorizedError();
+    }
+
+    const user: any = await UsersData.getUserByUserID(userData.payload.id);
+    const userDto = new UserDto(user[0]);
+    const tokens = generateTokens(userDto); 
+
+    await saveToken(userDto.id, tokens.refreshToken)
+    
+    return { ...tokens, user: userDto }
+}

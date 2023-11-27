@@ -61,5 +61,23 @@ class UsersData {
             console.log(err);
         }
     }
+    static getUserByUserID(userID) {
+        try {
+            const sql = "SELECT * FROM users WHERE userID=?";
+            return new Promise((resolve, reject) => {
+                connection_1.default.query(sql, userID, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 }
 exports.UsersData = UsersData;
