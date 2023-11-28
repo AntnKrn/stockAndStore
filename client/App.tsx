@@ -5,23 +5,38 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-import Button from './src/components/Button';
-import AuthorizationScreen from './src/screens/AuthorizationScreen';
-import ProductsScreen from './src/screens/ProductsScreen';
+import AuthorizationScreen from './src/screens/Authorization/AuthorizationScreen';
+import ProductsScreen from './src/screens/Products/ProductsScreen';
+import RegistrationScreen from './src/screens/Registration/RegistrationScreen';
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+            headerShown: false
+          }}
+      >
+
         <Stack.Screen
-          name="Auth"
+          name="AuthorizationScreen"
           component={AuthorizationScreen}
+          
         />
+
         <Stack.Screen
-          name="Products"
+          name="ProductsScreen" options={{
+            headerLeft: ()=> null, 
+            gestureEnabled: true      //false!
+          }}
           component={ProductsScreen}
         />
+
+        <Stack.Screen
+          name="RegistrationScreen"
+          component={RegistrationScreen}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
