@@ -1,0 +1,9 @@
+export enum FetchUserDataActionTypes {
+    FETCH_USERDATA = "FETCH_USERDATA",
+    FETCH_USERDATA_SUCCESS = "FETCH_USERDATA_SUCCESS",
+    FETCH_USERDATA_ERROR = "FETCH_USERDATA_ERROR",
+}
+
+export const LOGOUT = "LOGOUT";
+
+export const FETCH_PRODUCTS: string = "FETCH_PRODUCTS";

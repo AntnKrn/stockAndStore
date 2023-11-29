@@ -1,20 +1,37 @@
 import React from "react";
 import { useState } from "react";
 import { NativeSyntheticEvent, Pressable, Text, TextInput, TextInputChangeEventData, View } from "react-native";
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { style } from "./AuthorizationStyles";
+import { fetchUserData } from "../../store/actions/authAction";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTypedSelector } from "../../hooks/useTypesSelector";
+
 
 const AuthorizationScreen = ({navigation}: any) => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+  const dispatch = useDispatch();
+
+  const {userData, isAuth, error} = useTypedSelector(state => state.login)
+  const [login, setLogin] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
     
-    const onChangeEmail = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-        setEmail(e.nativeEvent.text);
-    }
-    const onChangePassword = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+  const onChangeLogin = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+        setLogin(e.nativeEvent.text);
+  }
+  const onChangePassword = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
         setPassword(e.nativeEvent.text);
-    }
-    return (
+  }
+
+  const onPressHandler = async () => {
+      await dispatch<any>(fetchUserData(login, password));
+      console.log(userData, isAuth, error);
+      if(isAuth) {
+        navigation.navigate('ProductsScreen');
+      }
+  }
+
+  return (
         <View style={style.container}>
             <Text style={style.authText}>Авторизация</Text>
 
@@ -22,8 +39,9 @@ const AuthorizationScreen = ({navigation}: any) => {
               style={style.input} 
               placeholder="Логин" 
               autoCapitalize="none"
-              onChange={onChangeEmail} 
+              onChange={onChangeLogin} 
               maxLength={20}
+              value={login}
             />
 
             <TextInput 
@@ -33,11 +51,12 @@ const AuthorizationScreen = ({navigation}: any) => {
               secureTextEntry={true}
               onChange={onChangePassword} 
               maxLength={20}
+              value={password}
             />
 
             <Pressable 
               style={style.enter as any} 
-              onPress={() => navigation.navigate('ProductsScreen')}>
+              onPress={onPressHandler}>
                 <Text style={style.enterText}>Войти</Text>
             </Pressable>
 
@@ -47,7 +66,7 @@ const AuthorizationScreen = ({navigation}: any) => {
                 <Text style={style.registrationText}>Регистрация</Text>
             </Pressable>
         </View>
-    )
+  )
 }
 
 export default AuthorizationScreen;

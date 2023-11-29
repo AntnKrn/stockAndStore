@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { TokenData } from "../../data/Token";
 
 export const generateTokens = (payload: any) => {
-    const accessToken = jwt.sign({payload}, "access", { expiresIn: '30s'});
+    const accessToken = jwt.sign({payload}, "access", { expiresIn: '30m'});
     const refreshToken = jwt.sign({payload}, "refresh", {expiresIn: '30d'});
 
     return {
