@@ -17,7 +17,7 @@ const AuthorizationScreen = ({navigation}: any) => {
 
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-    
+  console.log(isAuth)
   const onChangeLogin = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
         setLogin(e.nativeEvent.text);
   }
