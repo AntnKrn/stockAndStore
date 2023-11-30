@@ -9,7 +9,7 @@ const getUsers = async (req, res, next) => {
         res.json(data);
     }
     catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 exports.getUsers = getUsers;
@@ -21,7 +21,7 @@ const postUser = async (req, res, next) => {
         res.status(201).json({ message: "user created", user: newUser });
     }
     catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 exports.postUser = postUser;

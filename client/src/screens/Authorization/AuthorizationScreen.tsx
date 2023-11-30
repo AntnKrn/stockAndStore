@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { NativeSyntheticEvent, Pressable, Text, TextInput, TextInputChangeEventData, View } from "react-native";
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -7,12 +7,14 @@ import { style } from "./AuthorizationStyles";
 import { fetchUserData } from "../../store/actions/authAction";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTypedSelector } from "../../hooks/useTypesSelector";
+import App from "../../../App";
 
 
 const AuthorizationScreen = ({navigation}: any) => {
   const dispatch = useDispatch();
 
-  const {userData, isAuth, error} = useTypedSelector(state => state.login)
+  const {userData, isAuth, error} = useTypedSelector(state => state.auth);
+
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
     
@@ -23,13 +25,15 @@ const AuthorizationScreen = ({navigation}: any) => {
         setPassword(e.nativeEvent.text);
   }
 
-  const onPressHandler = async () => {
-      await dispatch<any>(fetchUserData(login, password));
-      console.log(userData, isAuth, error);
-      if(isAuth) {
-        navigation.navigate('ProductsScreen');
-      }
+  const onPressHandler = async() => {
+    await dispatch<any>(fetchUserData(login, password));
   }
+
+  useEffect(() => {
+    if (isAuth) {
+      navigation.navigate('ProductsScreen');
+    }
+  }, [isAuth]);
 
   return (
         <View style={style.container}>

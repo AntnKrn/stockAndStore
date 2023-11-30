@@ -22,7 +22,10 @@ const refresh_1 = __importDefault(require("./business/routers/refresh"));
 const app = (0, express_1.default)();
 app.use((0, body_parser_1.json)());
 app.use((0, cookie_parser_1.default)());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    credentials: true,
+    origin: "http://localhost:3000"
+}));
 app.use('/refresh', refresh_1.default);
 app.use('/users', users_1.default);
 app.use('/registration', registration_1.default);

@@ -11,6 +11,6 @@ export const login: RequestHandler = async(req, res, next) => {
         res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
         return res.status(201).json(userData);
     } catch(err) {
-        console.log(err);
+        next(err);
     }
 }

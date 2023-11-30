@@ -12,6 +12,6 @@ export const logout: RequestHandler = async(req, res, next) => {
 
         return res.json(token);
     } catch(err) {
-        console.log(err);
+        next(err);
     }
 }

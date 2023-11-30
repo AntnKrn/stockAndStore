@@ -10,7 +10,7 @@ const refreshToken = async (req, res, next) => {
         return res.status(201).json(userData);
     }
     catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 exports.refreshToken = refreshToken;

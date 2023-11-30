@@ -1,4 +1,4 @@
-import { FetchUserDataActionTypes, LOGOUT } from "../store/actions/actionsTypes";
+import { AuthActionTypes } from "../store/actions/actionsTypes";
 
 export interface UserState {
     userData: any;
@@ -11,23 +11,30 @@ export interface IUserAction {
     payload?: any;
 }
 
-interface IFetchUserDataAction {
-    type: FetchUserDataActionTypes.FETCH_USERDATA;
-}
-
 interface IFetchUserDataSuccessAction {
-    type: FetchUserDataActionTypes.FETCH_USERDATA_SUCCESS;
+    type: AuthActionTypes.FETCH_USERDATA_SUCCESS;
     payload: any[]
 }
 
 interface IFetchUserDataErrorAction {
-    type: FetchUserDataActionTypes.FETCH_USERDATA_ERROR;
+    type: AuthActionTypes.FETCH_USERDATA_ERROR;
     payload: string
 }
 
-export interface ILogout {
-    type: typeof LOGOUT
+interface ILogout {
+    type: AuthActionTypes.LOGOUT;
+    payload?: any
 }
 
-export type UserAction = IFetchUserDataAction | IFetchUserDataSuccessAction | IFetchUserDataErrorAction;
+interface IRegistrationSuccessAction {
+    type: AuthActionTypes.REGISTRATION_SUCCESS;
+    payload?: any
+}
+
+interface IRegistrationErrorAction {
+    type: AuthActionTypes.REGISTRATION_ERROR;
+    payload: string
+}
+
+export type UserAction = IFetchUserDataSuccessAction | IFetchUserDataErrorAction | ILogout | IRegistrationSuccessAction | IRegistrationErrorAction;
 

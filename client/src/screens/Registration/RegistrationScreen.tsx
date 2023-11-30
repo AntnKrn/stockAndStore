@@ -3,16 +3,26 @@ import { useState } from "react";
 import { Button, NativeSyntheticEvent, Pressable, Text, TextInput, TextInputChangeEventData, View } from "react-native";
 
 import { style } from "./RegistrationStyles";
+import { useDispatch } from "react-redux";
+import { registration } from "../../store/actions/authAction";
+import { useTypedSelector } from "../../hooks/useTypesSelector";
 
 
 const RegistrationScreen = ({navigation}: any) => {
-    const [email, setEmail] = useState<string>("");
+    const dispatch = useDispatch();
+    const {userData, isAuth, error} = useTypedSelector(state => state.auth);
+
+    const [login, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const onChangeEmail = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
         setEmail(e.nativeEvent.text);
     }
     const onChangePassword = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
         setPassword(e.nativeEvent.text);
+    }
+
+    const onPressHandler = async () => {
+      await dispatch<any>(registration(login, password))
     }
     return (
         <View style={style.container}>
@@ -37,7 +47,7 @@ const RegistrationScreen = ({navigation}: any) => {
 
             <Pressable 
               style={style.enter as any} 
-              onPress={() => navigation.navigate('ProductsScreen')}>
+              onPress={onPressHandler}>
                 <Text style={style.enterText}>Зарегистрироваться</Text>
             </Pressable>
 
@@ -46,6 +56,8 @@ const RegistrationScreen = ({navigation}: any) => {
               onPress={() => navigation.navigate('AuthorizationScreen')}>
                 <Text style={style.registrationText}>Авторизация</Text>
             </Pressable>
+
+            {/* {!error ? <Text>Success</Text> : <Text>Error</Text>} */}
         </View>
     )
 }

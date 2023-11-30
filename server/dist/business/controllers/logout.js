@@ -10,7 +10,7 @@ const logout = async (req, res, next) => {
         return res.json(token);
     }
     catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 exports.logout = logout;

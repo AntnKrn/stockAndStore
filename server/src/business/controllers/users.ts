@@ -9,7 +9,7 @@ export const getUsers: RequestHandler = async(req, res, next) => {
         
         res.json(data);
     } catch(err) {
-        console.log(err);
+        next(err);
     }
 }
 
@@ -21,6 +21,6 @@ export const postUser: RequestHandler = async(req, res, next) => {
 
         res.status(201).json({ message: "user created", user: newUser });
     } catch(err) {
-        console.log(err);
+        next(err);
     }
 }

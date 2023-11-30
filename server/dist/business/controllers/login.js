@@ -10,7 +10,7 @@ const login = async (req, res, next) => {
         return res.status(201).json(userData);
     }
     catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 exports.login = login;
