@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/authAction";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { style } from "./ProductsStyles";
 import { useTypedSelector } from "../../hooks/useTypesSelector";
 import { fetchProducts } from "../../store/actions/productsAction";
 import ProductItem from "../../components/ProductItem/ProductItem";
+import SearchField from "../../components/Search/Search";
 
 const ProductsScreen = () => {
     const [products, setProducts] = useState<any>();
@@ -28,18 +29,21 @@ const ProductsScreen = () => {
     
 
     return (
-        <View style={style.mainView}>
-            {/* <Text>ProductsScreen</Text>
+        <ScrollView style={style.mainView}>
+            <SearchField />
             {isLoaded ? products.map((el: any, index: number) => {
-                console.log(el)
-                return <Text key={index}>{el.name}</Text>
-            }) : null} */}
-            <View style={style.paramsAria}>
-
-            </View>
-
-            <ProductItem />
-        </View>
+                return <ProductItem key={index} name={el.name} code={el.code} quantity={el.quantity} pic={index}/>
+            }): null}   
+            {isLoaded ? products.map((el: any, index: number) => {
+                return <ProductItem key={index} name={el.name} code={el.code} quantity={el.quantity} pic={index}/>
+            }): null}           
+            {isLoaded ? products.map((el: any, index: number) => {
+                return <ProductItem key={index} name={el.name} code={el.code} quantity={el.quantity} pic={index}/>
+            }): null}  
+            {isLoaded ? products.map((el: any, index: number) => {
+                return <ProductItem key={index} name={el.name} code={el.code} quantity={el.quantity} pic={index}/>
+            }): null}  
+        </ScrollView>
     )
 }
 

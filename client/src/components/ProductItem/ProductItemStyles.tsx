@@ -3,21 +3,21 @@ import { StyleSheet } from "react-native";
 export const style = StyleSheet.create({
     container: {
         display: 'flex',
-        justifyContent: 'flex-start',
+        flexDirection: 'row',
         height: 60,
         borderBottomColor: 'grey',
-        borderBottomWidth: 2
+        borderBottomWidth: 2,
+        alignItems: 'center',
     },
-    code: {
-
+    edit: {
+        marginLeft: 'auto'
     },
     pic: {
-
+        fontSize: 25,
+        margin: 10
     },
-    name: {
-        
+    codeAndName: {
+        fontSize: 17,
+        //width: 500
     },
-    quantity: {
-        
-    }
 });
