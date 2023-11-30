@@ -5,9 +5,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { style } from "./AuthorizationStyles";
 import { fetchUserData } from "../../store/actions/authAction";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTypedSelector } from "../../hooks/useTypesSelector";
-import App from "../../../App";
 
 
 const AuthorizationScreen = ({navigation}: any) => {
@@ -31,7 +29,7 @@ const AuthorizationScreen = ({navigation}: any) => {
 
   useEffect(() => {
     if (isAuth) {
-      navigation.navigate('ProductsScreen');
+      navigation.navigate('MainTabNavigator', { screen: 'Товары' });
     }
   }, [isAuth]);
 
