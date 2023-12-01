@@ -20,7 +20,7 @@ export default class ProductsService{
         return $api.get('/products')
     }
 
-    static async postProducts(name: string, brand: string, code: string, quantity: string, IDprovider: number, pricePurchase: string, priceSale: string, volume: number, weight: number, dateReceipt: string, description: string): Promise<void> {
+    static async postProducts(name: string, brand: string, code: string, quantity: string, IDprovider: string, pricePurchase: string, priceSale: string, volume: string, weight: string, dateReceipt: string, description: string): Promise<void> {
         return $api.post('/products', {name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description});
     }
 }

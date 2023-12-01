@@ -1,31 +1,60 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { View, Text, TextInput, TextInputChangeEventData, NativeSyntheticEvent } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, TextInputChangeEventData, NativeSyntheticEvent } from "react-native";
 import RNPickerSelect from 'react-native-picker-select';
+import { useNavigation } from '@react-navigation/native';
 
 import axios from "axios";
 
 import { style } from "./AddProductStyles";
+import ProductsService from "../../services/ProductsService";
 
 const AddProductScreen = ({navigation}: any) => {
+
     const [providers, setProviders] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>();
     const [labels, setLabels] = useState<string[]>([]);
     const [values, setValues] = useState<number[]>([]);
 
-    const [name, setName] = useState<string>();
-    const [brand, setBrand] = useState<string>();
-    const [code, setCode] = useState<string>();
-    const [quantity, setQuantity] = useState<string>();
-    const [provider, setProvider] = useState<string>();
-    const [pricePurchase, setPricePurchase] = useState<string>();
-    const [priceSale, setPriceSale] = useState<string>();
-    const [volume, setVolume] = useState<string>();
-    const [weight, setWeigth] = useState<string>();
-    const [dateReceipt, setDateReceipt] = useState<string>();
-    const [description, setDescription] = useState<string>();
+    const [name, setName] = useState<string>('');
+    const [brand, setBrand] = useState<string>('');
+    const [code, setCode] = useState<string>('');
+    const [quantity, setQuantity] = useState<string>('');
+    const [provider, setProvider] = useState<string>('');
+    const [pricePurchase, setPricePurchase] = useState<string>('');
+    const [priceSale, setPriceSale] = useState<string>('');
+    const [volume, setVolume] = useState<string>('');
+    const [weight, setWeigth] = useState<string>('');
+    const [dateReceipt, setDateReceipt] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+
+    type RootParamList = {
+      AddProductScreen: undefined;
+      OtherScreen: 'dsadsa';
+      // ... другие экраны
+    };
+
+    const handleDonePress = async () => {
+      try {
+        await ProductsService.postProducts(name, brand, code, quantity, provider, pricePurchase, priceSale, volume, weight, dateReceipt, description)
+        alert('Данные успешно добавлены!');
+        navigation.navigate('MainTabNavigator', { screen: 'Товары' });
+      } catch(err) {
+        alert(err);
+      }
+    }
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity onPress={handleDonePress}>
+            <View style={{ marginRight: 10, color: '#ffffff'} as any}>
+              <Text>Готово</Text>
+            </View>
+          </TouchableOpacity>
+        ),
+      });
+    }, [navigation, handleDonePress]);
     
-    console.log(name,brand,code,quantity,provider,pricePurchase,priceSale, volume, weight, dateReceipt, description)
     const onChangeNameHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
       setName(e.nativeEvent.text)
     }

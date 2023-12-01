@@ -10,11 +10,12 @@ const SearchField = (props: any) => {
             <MaterialCommunityIcons style={style.search} name="magnify" size={25} color="black" />
             <TextInput 
               style={style.input}
+              onChange={props.onChangeText}
               placeholder="Введите название"
               autoCapitalize="none"
             />
             <MaterialCommunityIcons style={style.plusAndFilter} name="plus" size={25} color="black" onPress={props.onPress}/>
-            <MaterialCommunityIcons style={style.plusAndFilter} name="filter" size={25} color="black" />
+            {/* <MaterialCommunityIcons style={style.plusAndFilter} name="filter" size={25} color="black" /> */}
         
         </View>
   )

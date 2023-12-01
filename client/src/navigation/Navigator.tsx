@@ -30,7 +30,7 @@ const AppNavigator = () => (
       <Stack.Screen name="AuthorizationScreen" component={AuthorizationScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} />
-      <Stack.Screen name="AddProductScreen" component={AddProductScreen} options={{headerRight: headerRightForAddProduct}}/>
+      <Stack.Screen name="AddProductScreen" component={AddProductScreen} options={{ title: 'Добавление'}}/* options={{headerRight: headerRightForAddProduct}} *//>
     </Stack.Navigator>
   </NavigationContainer>
 );
