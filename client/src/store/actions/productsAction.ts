@@ -1,10 +1,10 @@
 import { Dispatch } from "redux";
 import { ProductsActionTypes } from "./actionsTypes";
-import { ProductsAction } from "../../types/productsData";
+import { getProductsAction, postProductsAction } from "../../types/productsData";
 import ProductsService from "../../services/ProductsService";
 
 export const fetchProducts = () => {
-    return async (dispatch: Dispatch<ProductsAction>) => {
+    return async (dispatch: Dispatch<getProductsAction>) => {
         try {
             dispatch({ type: ProductsActionTypes.FETCH_PRODUCTS })
             const response = await ProductsService.fetchProducts();
@@ -16,40 +16,14 @@ export const fetchProducts = () => {
     }
 }
 
-/* export const fetchUserData = (login: string, password: string) => {
-    return async (dispatch: Dispatch<UserAction>) => {
+export const postProducts = (name: string, brand: string, code: string, quantity: string, IDprovider: number, pricePurchase: string, priceSale: string, volume: number, weight: number, dateReceipt: string, description: string) => {
+    return async (dispatch: Dispatch<postProductsAction>) => {
         try {
-            const response = await AuthService.login(login, password);
-
-            await AsyncStorage.setItem('token', response.data.accessToken);
-            dispatch({ type: AuthActionTypes.FETCH_USERDATA_SUCCESS, payload: response.data})
+            dispatch({ type: ProductsActionTypes.POST_PRODUCTS_REQUEST });
+            await ProductsService.postProducts(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description);
+            dispatch({ type: ProductsActionTypes.POST_PRODUCTS_SUCCESS })
         } catch(err) {
-            dispatch({type: AuthActionTypes.FETCH_USERDATA_ERROR, payload: 'Авторизация не прошла'})
+            dispatch({type: ProductsActionTypes.POST_PRODUCTS_ERROR, payload: 'Ошибка ввода данных. Повторите попытку'})
         }
     }
 }
-
-export const logout = () => {
-    return async (dispatch: Dispatch<UserAction>) => {
-        try {
-            await AuthService.logout();
-
-            await AsyncStorage.removeItem('token');
-
-            dispatch({ type: AuthActionTypes.LOGOUT });
-        } catch(err) {
-            console.log(err);
-        }
-    }
-}
-
-export const registration = (login: string, password: string) => {
-    return async(dispatch: Dispatch<UserAction>) => {
-        try {
-            await AuthService.registration(login, password);
-            dispatch({ type: AuthActionTypes.REGISTRATION_SUCCESS });
-        } catch(err) {
-            dispatch({ type: AuthActionTypes.REGISTRATION_ERROR, payload: "Произошла ошиба регистрации" })
-        }
-    }
-} */

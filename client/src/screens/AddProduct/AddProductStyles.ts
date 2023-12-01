@@ -28,6 +28,7 @@ export const style = StyleSheet.create({
         borderBottomWidth: 1,
         width: '70%',
         marginRight: '10%',
-        paddingTop: 15
-    }
+        paddingTop: 15,
+        
+    },
 })

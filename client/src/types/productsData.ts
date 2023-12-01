@@ -25,5 +25,18 @@ interface IFetchProductsError {
     type: ProductsActionTypes.FETCH_PRODUCTS_ERROR;
 }
 
-export type ProductsAction = IFetchProducts | IFetchProductsSuccess | IFetchProductsError;
+interface IPostProducts{
+    type: ProductsActionTypes.POST_PRODUCTS_REQUEST;
+}
+
+interface IPostProductsSuccess {
+    type: ProductsActionTypes.POST_PRODUCTS_SUCCESS;
+    payload?: any[]
+}
+
+interface IPostProductsError {
+    type: ProductsActionTypes.POST_PRODUCTS_ERROR;
+}
+export type postProductsAction = IPostProducts | IPostProductsSuccess | IPostProductsError;
+export type getProductsAction = IFetchProducts | IFetchProductsSuccess | IFetchProductsError;
 

@@ -8,7 +8,7 @@ const initialState: ProductState = {
     error: null
 }
 
-export const productsReducer = (state = initialState, action: IProductsAction): ProductState => {
+export const getProductsReducer = (state = initialState, action: IProductsAction): ProductState => {
     switch(action.type) {
         case ProductsActionTypes.FETCH_PRODUCTS: {
             return {
@@ -39,50 +39,34 @@ export const productsReducer = (state = initialState, action: IProductsAction): 
     }
 }
 
-/* export const authReducer = (state = initialState, action: IUserAction): UserState => {
+export const postProductsReducer = (state = initialState, action: IProductsAction): ProductState => {
     switch(action.type) {
-        case AuthActionTypes.FETCH_USERDATA_SUCCESS: {
+        case ProductsActionTypes.POST_PRODUCTS_REQUEST: {
             return {
-                isAuth: true,
-                userData: action.payload,
+                products: [],
+                isLoaded: false,
                 error: null
             }
         }
 
-        case AuthActionTypes.FETCH_USERDATA_ERROR: {
+        case ProductsActionTypes.POST_PRODUCTS_SUCCESS: {
             return {
-                isAuth: false,
-                userData: {},
-                error: action.payload
-            }
-        }
-
-        case AuthActionTypes.LOGOUT: {
-            return {
-                isAuth: false,
-                userData: {},
+                products: action.payload,
+                isLoaded: true,
                 error: null
             }
         }
 
-        case AuthActionTypes.REGISTRATION_SUCCESS: {
+        case ProductsActionTypes.POST_PRODUCTS_ERROR: {
             return {
-                isAuth: false,
-                userData: {},
-                error: null
+                products: [],
+                isLoaded: false,
+                error: 'Ошибка ввода данных. Повторите попытку'
             }
         }
-
-        case AuthActionTypes.REGISTRATION_ERROR: {
-            return {
-                isAuth: false,
-                userData: {},
-                error: action.payload
-            }
-        }
-
-        default: { 
+        
+        default: {
             return state
         }
     }
-} */
+}
