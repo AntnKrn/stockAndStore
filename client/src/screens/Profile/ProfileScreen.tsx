@@ -11,7 +11,7 @@ const ProfileScreen = ({navigation}: any) => {
   const { isAuth } = useTypedSelector(state => state.auth);
 
   if(!isAuth) {
-    navigation.navigate('AuthorizationScreen')
+    navigation.replace('AuthorizationScreen')
   }
 
   const onPressHandler = async () => {

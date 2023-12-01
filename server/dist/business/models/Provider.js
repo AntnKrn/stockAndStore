@@ -8,15 +8,15 @@ class Provider {
     address;
     contactPerson;
     email;
-    id;
-    constructor(name, phoneNumber, category, address, contactPerson, email, id) {
+    providerID;
+    constructor(name, phoneNumber, category, address, contactPerson, email, providerID) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.category = category;
         this.address = address;
         this.contactPerson = contactPerson;
         this.email = email;
-        this.id = id;
+        this.providerID = providerID;
     }
     ;
 }

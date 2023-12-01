@@ -8,6 +8,7 @@ export const getProviders: RequestHandler = async (req, res, next) => {
         const providers: any = await ProvidersData.fetchProviders();
 
         const data = providers.map((provider: Provider) => ({
+            id: provider.providerID,
             name: provider.name,
             phoneNumber: provider.phoneNumber,
             category: provider.category,

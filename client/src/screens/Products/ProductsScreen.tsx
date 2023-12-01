@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
-import { logout } from "../../store/actions/authAction";
 import axios from "axios";
 
 import { style } from "./ProductsStyles";
-import { useTypedSelector } from "../../hooks/useTypesSelector";
-import { fetchProducts } from "../../store/actions/productsAction";
 import ProductItem from "../../components/ProductItem/ProductItem";
 import SearchField from "../../components/Search/Search";
 
-const ProductsScreen = () => {
+const ProductsScreen = ({navigation}: any) => {
     const [products, setProducts] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>();
 
@@ -27,10 +23,13 @@ const ProductsScreen = () => {
         sendGetRequest();
     }, [])
     
-
+    const onPressAddHandler = () => {
+        console.log('dsadsa')
+        navigation.navigate('AddProductScreen');
+    }
     return (
         <ScrollView style={style.mainView}>
-            <SearchField />
+            <SearchField onPress={onPressAddHandler}/>
             {isLoaded ? products.map((el: any, index: number) => {
                 return <ProductItem key={index} name={el.name} code={el.code} quantity={el.quantity} pic={index}/>
             }): null}   

@@ -10,6 +10,7 @@ const getProviders = async (req, res, next) => {
     try {
         const providers = await Providers_1.default.fetchProviders();
         const data = providers.map((provider) => ({
+            id: provider.providerID,
             name: provider.name,
             phoneNumber: provider.phoneNumber,
             category: provider.category,

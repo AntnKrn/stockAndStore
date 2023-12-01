@@ -6,6 +6,6 @@ export class Provider {
         public address: string,
         public contactPerson?: string,
         public email?: string,
-        public id?: number,
+        public providerID?: number,
     ){};
 }

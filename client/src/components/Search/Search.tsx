@@ -13,7 +13,7 @@ const SearchField = (props: any) => {
               placeholder="Введите название"
               autoCapitalize="none"
             />
-            <MaterialCommunityIcons style={style.plusAndFilter} name="plus" size={25} color="black" />
+            <MaterialCommunityIcons style={style.plusAndFilter} name="plus" size={25} color="black" onPress={props.onPress}/>
             <MaterialCommunityIcons style={style.plusAndFilter} name="filter" size={25} color="black" />
         
         </View>
