@@ -13,8 +13,8 @@ class Product {
     weight;
     dateReceipt;
     description;
-    id;
-    constructor(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description, id) {
+    productID;
+    constructor(name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description, productID) {
         this.name = name;
         this.brand = brand;
         this.code = code;
@@ -26,7 +26,7 @@ class Product {
         this.weight = weight;
         this.dateReceipt = dateReceipt;
         this.description = description;
-        this.id = id;
+        this.productID = productID;
     }
     ;
 }

@@ -10,7 +10,13 @@ export const style = StyleSheet.create({
         alignItems: 'center',
     },
     edit: {
+        display: 'flex',
+        flexDirection: 'row',
         marginLeft: 'auto'
+    },
+    icon: {
+        width: 30,
+        height: 30
     },
     pic: {
         fontSize: 25,
@@ -18,6 +24,9 @@ export const style = StyleSheet.create({
     },
     codeAndName: {
         fontSize: 17,
-        //width: 500
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        height: 30,
+        width: 300
     },
 });

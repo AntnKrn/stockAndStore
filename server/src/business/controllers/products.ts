@@ -20,6 +20,7 @@ export const getProducts: RequestHandler = async (req, res, next) => {
         const products: any = await ProductsData.getProducts();
 
         const data = products.map((products: Product) => ({
+            productID: products.productID,
             name: products.name,
             brand: products.brand,
             code: products.code,

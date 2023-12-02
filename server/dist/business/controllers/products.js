@@ -22,6 +22,7 @@ const getProducts = async (req, res, next) => {
     try {
         const products = await Products_1.default.getProducts();
         const data = products.map((products) => ({
+            productID: products.productID,
             name: products.name,
             brand: products.brand,
             code: products.code,

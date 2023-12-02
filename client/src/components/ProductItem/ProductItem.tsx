@@ -17,7 +17,9 @@ const ProductItem = (props: any) => {
                 </Text>
             </View>
             <Pressable style={style.edit}>
-                <MaterialCommunityIcons name="content-save-edit-outline" size={24} color="black" onPress={() => console.log('clicked')}/>
+                <MaterialCommunityIcons style={style.icon} name="eye" size={24} color="black" onPress={props.onPressViewHandler}/>
+                <MaterialCommunityIcons style={style.icon} name="content-save-edit-outline" size={24} color="black" onPress={props.onPressEditHandler}/>
+                <MaterialCommunityIcons style={style.icon} name="delete" size={24} color="black" onPress={props.onPressDeleteHandler}/>
             </Pressable>
         </View>
   )//content-save-edit-outline

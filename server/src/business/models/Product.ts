@@ -11,6 +11,6 @@ export class Product {
         public weight: number,
         public dateReceipt: Date,
         public description?: string,
-        public id?: number
+        public productID?: number
     ){};
 }
