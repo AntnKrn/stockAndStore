@@ -2,29 +2,37 @@ import React, { useEffect, useState } from "react";
 import { NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, TextInputChangeEventData, View } from "react-native";
 import axios from "axios";
 
-import { style } from "./ProductsStyles";
-import ProductItem from "../../../components/ProductItem/ProductItem";
+import { style } from "./OrdersStyles";
+import OrderItem from "../../../components/OrderItem/OrderItem";
 import SearchField from "../../../components/Search/Search";
 import { useIsFocused } from "@react-navigation/native";
-import ProductsService from "../../../services/ProductsService";
+import OrderService from "../../../services/OrderService";
 
 const ProductsScreen = ({navigation}: any) => {
-    const [products, setProducts] = useState<any>();
+    const [orders, setOrders] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [searchText, setSearchText] = useState<string>("");
     const [refresh, setRefresh] = useState<boolean>(false);
 
     const isFocused = useIsFocused();
 
-    const filteredProducts = isLoaded ? products.filter((el: any) => {
-        return el.name.toLowerCase().includes(searchText.toLowerCase())
+    const filteredProducts = isLoaded ? orders.filter((el: any) => {
+        return el.clientName.toLowerCase().includes(searchText.toLowerCase())
       })
     : [];
 
     const getProducts = async() => {
         try {
-            const response = await axios.get("http://localhost:3000/products");
-            setProducts(response.data);
+            const response: any= await axios.get("http://localhost:3000/orders");
+            const clientsResponse = await axios.get("http://localhost:3000/clients");
+            response.data.forEach((el: any) => {
+              clientsResponse.data.forEach((cl: any) => {
+                if(el.IDclient === cl.clientID) {
+                  el.clientName = cl.fullname;
+                }
+              })
+            });
+            setOrders(response.data);
             setIsLoaded(true);
         } catch(err) {
             console.log(err);
@@ -38,21 +46,22 @@ const ProductsScreen = ({navigation}: any) => {
     }, [isFocused, refresh])
 
     const onPressDeleteHandler = async (id: number) => {
-        await ProductsService.deleteProducts(id);
+        console.log(id)
+        await OrderService.deleteOrder(id);
         setRefresh(true);
     }
 
-    const onPressViewHandler = (product: any) => {
-        navigation.navigate('ViewProductScreen', { data: product });
+    const onPressViewHandler = (order: any) => {
+        navigation.navigate('ViewOrderScreen', { data: order });
     }
 
 
-    const onPressEditHandler = (product: any) => {
-        navigation.navigate('EditProductScreen', { data: product });
+    const onPressEditHandler = (order: any) => {
+        navigation.navigate('EditOrderScreen', { data: order });
     }
 
     const onPressAddHandler = () => {
-        navigation.navigate('AddProductScreen');
+        //navigation.navigate('AddProductScreen');
     }
     return (
         <ScrollView style={style.mainView}>
@@ -61,16 +70,18 @@ const ProductsScreen = ({navigation}: any) => {
             
             {isLoaded ? filteredProducts.map((el: any, index: number) => {
                 return (
-                    <ProductItem
-                        product={el}
+                    <OrderItem
+                        order={el}
                         key={index}
-                        id={el.IDprovider}
-                        name={el.name}
-                        code={el.code}
+                        clientName={el.clientName}
+                        IDproduct={el.IDproduct}
                         quantity={el.quantity}
+                        price={el.price}
                         pic={index}
+                        data={el.data}
+                        IDemployee={el.IDemployee}
                         onPressEditHandler={() => onPressEditHandler(el)}
-                        onPressDeleteHandler={() => onPressDeleteHandler(el.productID)}
+                        onPressDeleteHandler={() => onPressDeleteHandler(el.orderID)}
                         onPressViewHandler={() => onPressViewHandler(el)}
                     />);
                 })

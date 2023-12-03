@@ -2,10 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { Button, NativeSyntheticEvent, Pressable, Text, TextInput, TextInputChangeEventData, View } from "react-native";
 
-import { style } from "./RegistrationStyles";
+import { style } from "../Registration/RegistrationStyles";
 import { useDispatch } from "react-redux";
-import { registration } from "../../store/actions/authAction";
-import { useTypedSelector } from "../../hooks/useTypesSelector";
+import { registration } from "../../../store/actions/authAction";
+import { useTypedSelector } from "../../../hooks/useTypesSelector";
 
 
 const RegistrationScreen = ({navigation}: any) => {

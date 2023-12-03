@@ -6,12 +6,12 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 
 import axios from "axios";
 
-import { style } from "./EditProductStyles";
+import { style } from "./EditProviderStyles";
 import ProductsService from "../../../services/ProductsService";
 
 type Screen2RouteProp = RouteProp<Record<string, { data: any }>, 'Screen2'>;
 
-const EditProductScreen = ({navigation, props}: any) => {
+const EditProviderScreen = ({navigation, props}: any) => {
     const route = useRoute<Screen2RouteProp>();
     const { data } = route.params;
 
@@ -226,4 +226,4 @@ const EditProductScreen = ({navigation, props}: any) => {
       )
 }
 
-export default EditProductScreen;
+export default EditProviderScreen;

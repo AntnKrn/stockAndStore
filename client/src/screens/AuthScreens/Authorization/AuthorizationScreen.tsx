@@ -3,9 +3,9 @@ import { useState } from "react";
 import { NativeSyntheticEvent, Pressable, Text, TextInput, TextInputChangeEventData, View } from "react-native";
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-import { style } from "./AuthorizationStyles";
-import { fetchUserData } from "../../store/actions/authAction";
-import { useTypedSelector } from "../../hooks/useTypesSelector";
+import { style } from "../Authorization/AuthorizationStyles";
+import { fetchUserData } from "../../../store/actions/authAction";
+import { useTypedSelector } from "../../../hooks/useTypesSelector";
 
 
 const AuthorizationScreen = ({navigation}: any) => {

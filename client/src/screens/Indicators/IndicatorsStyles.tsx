@@ -4,8 +4,14 @@ export const style = StyleSheet.create({
     container: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: 'skyblue',
         height: '100%',
     },
+    quantitySumContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 70
+    }
 });

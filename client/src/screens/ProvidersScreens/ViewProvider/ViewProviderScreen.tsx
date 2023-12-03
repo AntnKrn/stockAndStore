@@ -11,7 +11,7 @@ import ProductsService from "../../../services/ProductsService";
 
 type Screen2RouteProp = RouteProp<Record<string, { data: any }>>;
 
-const ViewProductScreen = ({navigation, props}: any) => {
+const ViewProviderScreen = ({navigation, props}: any) => {
     const route = useRoute<Screen2RouteProp>();
     const { data } = route.params;
 
@@ -90,4 +90,4 @@ const ViewProductScreen = ({navigation, props}: any) => {
       )
 }
 
-export default ViewProductScreen;
+export default ViewProviderScreen;
