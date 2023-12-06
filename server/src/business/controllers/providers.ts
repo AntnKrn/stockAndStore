@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 
 import { Provider } from '../models/Provider';
-import ProvidersData from "../../data/Providers";
+import ProvidersData from "../../repositories/Providers";
 
 export const getProviders: RequestHandler = async (req, res, next) => {
     try {

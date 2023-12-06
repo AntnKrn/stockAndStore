@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEmployee = exports.editEmployee = exports.postEmployee = exports.getEmployees = void 0;
 const Employee_1 = require("../models/Employee");
-const Employee_2 = require("../../data/Employee");
+const Employee_2 = require("../../repositories/Employee");
 const getEmployees = async (req, res, next) => {
     try {
         const data = await Employee_2.EmployeesData.getEmployees();

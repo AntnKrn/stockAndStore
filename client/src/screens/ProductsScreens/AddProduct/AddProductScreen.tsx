@@ -3,14 +3,16 @@ import { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, TextInputChangeEventData, NativeSyntheticEvent } from "react-native";
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import axios from "axios";
 
 import { style } from "./AddProductStyles";
 import ProductsService from "../../../services/ProductsService";
+import DatePicker from "react-native-datepicker";
 
 const AddProductScreen = ({navigation}: any) => {
-
+   const currentDate = new Date();
     const [providers, setProviders] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>();
     const [labels, setLabels] = useState<string[]>([]);
@@ -28,17 +30,13 @@ const AddProductScreen = ({navigation}: any) => {
     const [dateReceipt, setDateReceipt] = useState<string>('');
     const [description, setDescription] = useState<string>('');
 
-    type RootParamList = {
-      AddProductScreen: undefined;
-      OtherScreen: 'dsadsa';
-      // ... другие экраны
-    };
-
+    const [date, setDate] = useState<Date>(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));
+    
     const handleDonePress = async () => {
       try {
         await ProductsService.postProducts(name, brand, code, quantity, provider, pricePurchase, priceSale, volume, weight, dateReceipt, description)
         alert('Данные успешно добавлены!');
-        navigation.navigate('MainTabNavigator', { screen: 'Товары' });
+        navigation.navigate('Склад', { screen: 'Товары' });
       } catch(err) {
         alert(err);
       }
@@ -68,7 +66,9 @@ const AddProductScreen = ({navigation}: any) => {
     }
 
     const onChangeQuantityHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setQuantity(e.nativeEvent.text)
+      const number: any = e.nativeEvent.text;
+      const numericValue = number.replace(/[^0-9]/g, '');
+      setQuantity(numericValue);
     }
 
     const onChangePricePurchaseHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
@@ -120,6 +120,12 @@ const AddProductScreen = ({navigation}: any) => {
         sendGetRequest();
     }, [])
 
+    const onChangeDate = (event: Event, date?: any) => {
+      const formatedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      setDate(date);
+      setDateReceipt(formatedDate);
+    }
+
     return (
         <View style={style.mainView}>
             <TextInput 
@@ -147,10 +153,10 @@ const AddProductScreen = ({navigation}: any) => {
             <TextInput 
               style={style.inputNumber}
               placeholder="Количество" 
-              keyboardType="numeric"
               autoCapitalize="none"
               autoCorrect= {false}
               onChange={onChangeQuantityHandler}
+              value={quantity}
             />
             
             <View style={style.providers as any}>
@@ -198,21 +204,20 @@ const AddProductScreen = ({navigation}: any) => {
             />
 
             <TextInput 
-              style={style.inputNumber}
-              placeholder="Дата поставки" 
-              autoCapitalize="none"
-              autoCorrect= {false}
-              onChange={onChangeDateReceiptHandler}
-            />
-
-            <TextInput 
               style={style.inputText}
               placeholder="Описание" 
               autoCapitalize="none"
               autoCorrect= {false}
               onChange={onChangeDescriptionHandler}
             />
-            
+
+            <DateTimePicker
+              style={{paddingTop: 30}}
+              value={date}
+              mode="date"
+              display="spinner"
+              onChange={(e: any, date?: Date) => onChangeDate(e, date)}
+            />
         </View>
       )
 }

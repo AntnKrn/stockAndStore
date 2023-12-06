@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-import { TokenData } from "../../data/Token";
+import { TokenData } from "../../repositories/Token";
 
 export const generateTokens = (payload: any) => {
     const accessToken = jwt.sign({payload}, "access", { expiresIn: '30m'});

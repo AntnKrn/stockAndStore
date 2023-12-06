@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 
 import { Employee } from "../models/Employee";
-import { EmployeesData } from "../../data/Employee";
+import { EmployeesData } from "../../repositories/Employee";
 
 export const getEmployees: RequestHandler = async (req, res, next) => {
     try {

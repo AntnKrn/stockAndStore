@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteOrder = exports.editOrder = exports.postOrder = exports.getOrders = void 0;
 const Order_1 = require("../models/Order");
-const Order_2 = require("../../data/Order");
+const Order_2 = require("../../repositories/Order");
 const getOrders = async (req, res, next) => {
     try {
         const data = await Order_2.OrdersData.getOrders();

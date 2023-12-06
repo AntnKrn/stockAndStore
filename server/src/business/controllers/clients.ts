@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 
 import { Client } from "../models/Client";
-import { ClientsData } from "../../data/Clients";
+import { ClientsData } from "../../repositories/Clients";
 
 export const addClient: RequestHandler = async (req, res, next) => {
     try {

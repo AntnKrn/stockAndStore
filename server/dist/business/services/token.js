@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findToken = exports.validateRefreshToken = exports.validateAccessToken = exports.removeToken = exports.saveToken = exports.generateTokens = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const Token_1 = require("../../data/Token");
+const Token_1 = require("../../repositories/Token");
 const generateTokens = (payload) => {
     const accessToken = jsonwebtoken_1.default.sign({ payload }, "access", { expiresIn: '30m' });
     const refreshToken = jsonwebtoken_1.default.sign({ payload }, "refresh", { expiresIn: '30d' });

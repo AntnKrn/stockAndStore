@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-import { UsersData } from "../../data/Users";
+import { UsersData } from "../../repositories/Users";
 import { User } from "../models/User";
 
 export const getUsers: RequestHandler = async(req, res, next) => {

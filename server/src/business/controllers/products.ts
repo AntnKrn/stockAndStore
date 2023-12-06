@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 
 import { Product } from "../models/Product";
-import ProductsData from "../../data/Products";
+import ProductsData from "../../repositories/Products";
 
 export const addProduct: RequestHandler = async(req, res, next) => {
     try {

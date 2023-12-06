@@ -8,6 +8,8 @@ import axios from "axios";
 
 import { style } from "./EditProviderStyles";
 import ProductsService from "../../../services/ProductsService";
+import OrderService from "../../../services/OrderService";
+import ProviderService from "../../../services/ProvidersService";
 
 type Screen2RouteProp = RouteProp<Record<string, { data: any }>, 'Screen2'>;
 
@@ -15,28 +17,20 @@ const EditProviderScreen = ({navigation, props}: any) => {
     const route = useRoute<Screen2RouteProp>();
     const { data } = route.params;
 
-    const [providers, setProviders] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>();
-    const [labels, setLabels] = useState<string[]>([]);
-    const [values, setValues] = useState<number[]>([]);
-
+    console.log(data);
     const [name, setName] = useState<string>(data.name);
-    const [brand, setBrand] = useState<string>(data.brand);
-    const [code, setCode] = useState<string>(data.code);
-    const [quantity, setQuantity] = useState<any>(data.quantity);
-    const [provider, setProvider] = useState<string>(data.provider);
-    const [pricePurchase, setPricePurchase] = useState<string>(data.pricePurchase);
-    const [priceSale, setPriceSale] = useState<string>(data.priceSale);
-    const [volume, setVolume] = useState<string>(data.volume);
-    const [weight, setWeigth] = useState<string>(data.weight);
-    const [dateReceipt, setDateReceipt] = useState<string>(data.dateReceipt);
-    const [description, setDescription] = useState<string>(data.description);
+    const [phoneNumber, setPhoneNumber] = useState<string>(data.phoneNumber);
+    const [category, setCategory] = useState<string>(data.category);
+    const [address, setAddress] = useState<any>(data.address);
+    const [contactPerson, setContactPerson] = useState<string>(data.contactPerson);
+    const [email, setEmail] = useState<string>(data.email);
 
     const handleDonePress = async () => {
       try {
-        await ProductsService.patchProducts(data.productID, name, brand, code, quantity, provider, pricePurchase, priceSale, volume, weight, dateReceipt, description)
+        await ProviderService.patchProvider(name, phoneNumber, category, address, contactPerson, email, data.id);
         alert('Данные успешно отредактированы!');
-        navigation.navigate('MainTabNavigator', { screen: 'Товары' });
+        navigation.navigate('Склад', { screen: 'Поставщики' });
       } catch(err) {
         alert(err);
       }
@@ -58,66 +52,25 @@ const EditProviderScreen = ({navigation, props}: any) => {
       setName(e.nativeEvent.text)
     }
 
-    const onChangeBrandHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setBrand(e.nativeEvent.text)
+    const onChangePhoneNumberHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+      setPhoneNumber(e.nativeEvent.text)
     }
 
-    const onChangeCodeHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setCode(e.nativeEvent.text)
+    const onChangeCategoryHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+      setCategory(e.nativeEvent.text)
     }
 
-    const onChangeQuantityHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setQuantity(e.nativeEvent.text)
+    const onChangeAddressHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+      setAddress(e.nativeEvent.text)
     }
 
-    const onChangePricePurchaseHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setPricePurchase(e.nativeEvent.text)
+    const onChangeEmailHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+      setEmail(e.nativeEvent.text)
     }
 
-    const onChangePriceSaleHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setPriceSale(e.nativeEvent.text)
+    const onChangeContactPersonHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+      setContactPerson(e.nativeEvent.text)
     }
-
-    const onChangeVolumeHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setVolume(e.nativeEvent.text)
-    }
-
-    const onChangeWeightHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setWeigth(e.nativeEvent.text)
-    }
-
-    const onChangeDateReceiptHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setDateReceipt(e.nativeEvent.text);
-    }
-
-    const onChangeDescriptionHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setDescription(e.nativeEvent.text)
-    }
-
-    const onChangeProviderHandler = (e: any): void => {
-      setProvider(e)
-    }
-
-    useEffect(() => {
-        const sendGetRequest = async() => {
-            try {
-                const response = await axios.get("http://localhost:3000/providers");
-                setProviders(response.data);
-                setIsLoaded(true);
-                const arrayLabels: string[] = [];
-                const arrayValues: number[] = [];
-                response.data.map((el: any, index: number) => {
-                    arrayLabels.push(el.name);
-                    arrayValues.push(el.id);
-                })
-                setLabels(arrayLabels);
-                setValues(arrayValues);
-            } catch(err) {
-                console.log(err);
-            } 
-        }
-        sendGetRequest();
-    }, [])
 
     return (
         <View style={style.mainView}>
@@ -131,97 +84,48 @@ const EditProviderScreen = ({navigation, props}: any) => {
             />
             <TextInput 
               style={style.inputText}
-              placeholder="Бренд" 
+              placeholder="Номер телефона" 
               autoCapitalize="none"
               autoCorrect= {false}
-              onChange={onChangeBrandHandler}
-              value={brand}
-            />
-            <TextInput 
-              style={style.inputText}
-              placeholder="Код" 
-              autoCapitalize="none"
-              autoCorrect= {false}
-              onChange={onChangeCodeHandler}
-              value={code}
+              onChange={onChangePhoneNumberHandler}
+              value={phoneNumber}
             />
 
             <TextInput 
               style={style.inputText}
-              placeholder="Количество" 
+              placeholder='Контактное лицо'
               autoCapitalize="none"
               autoCorrect= {false}
-              onChange={onChangeQuantityHandler}
-              value={String(quantity)}
+              onChange={onChangeContactPersonHandler}
+              value={contactPerson}
+            />  
+
+            <TextInput 
+              style={style.inputText}
+              placeholder="Категория" 
+              autoCapitalize="none"
+              autoCorrect= {false}
+              onChange={onChangeCategoryHandler}
+              value={category}
+            />
+
+            <TextInput 
+              style={style.inputText}
+              placeholder="Адрес" 
+              autoCapitalize="none"
+              autoCorrect= {false}
+              onChange={onChangeAddressHandler}
+              value={address}
             />
             
-            <View style={style.providers as any}>
-              <RNPickerSelect
-                value={data.IDprovider}
-                  style={{placeholder: {
-                    color: '#71a2b9'
-                }}}
-                  placeholder={{label: 'Выберите поставщика', value: null }}
-                  onValueChange={onChangeProviderHandler}
-                  items={values.map((el: any, index: number) => {
-                    return {label: labels[index], value: values[index]}
-                  })}></RNPickerSelect>
-            </View>
-
             <TextInput 
             style={style.inputNumber}
-            placeholder="Цена покупки" 
+            placeholder="Email" 
             autoCapitalize="none"
             autoCorrect= {false}
-            onChange={onChangePricePurchaseHandler}
-            value={pricePurchase}
+            onChange={onChangeEmailHandler}
+            value={email}
             />
-
-            <TextInput 
-              style={style.inputNumber}
-              placeholder="Цена продажи" 
-              autoCapitalize="none"
-              autoCorrect= {false}
-              onChange={onChangePriceSaleHandler}
-              value={priceSale}
-            />
-
-            <TextInput 
-              style={style.inputNumber}
-              placeholder="Объем" 
-              autoCapitalize="none"
-              autoCorrect= {false}
-              onChange={onChangeVolumeHandler}
-              value={volume}
-            />
-
-            <TextInput 
-              style={style.inputNumber}
-              placeholder="Вес" 
-              autoCapitalize="none"
-              autoCorrect= {false}
-              onChange={onChangeWeightHandler}
-              value={weight}
-            />
-
-            <TextInput 
-              style={style.inputNumber}
-              placeholder="Дата поставки" 
-              autoCapitalize="none"
-              autoCorrect= {false}
-              onChange={onChangeDateReceiptHandler}
-              value={dateReceipt}
-            />
-
-            <TextInput 
-              style={style.inputText}
-              placeholder="Описание" 
-              autoCapitalize="none"
-              autoCorrect= {false}
-              onChange={onChangeDescriptionHandler}
-              value={description}
-            />
-            
         </View>
       )
 }

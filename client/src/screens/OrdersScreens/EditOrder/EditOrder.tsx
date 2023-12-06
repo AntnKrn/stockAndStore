@@ -75,7 +75,7 @@ const EditOrderScreen = ({navigation, props}: any) => {
       try {
         await OrderService.patchOrders(data.orderID, data.IDclient, data.IDproduct, quantity, price, data, data.IDemployee)        
         alert('Данные успешно отредактированы!');
-        navigation.navigate('MainTabNavigator', { screen: 'Товары' });
+        navigation.navigate('Склад', { screen: 'Товары' });
       } catch(err) {
         alert(err);
       }

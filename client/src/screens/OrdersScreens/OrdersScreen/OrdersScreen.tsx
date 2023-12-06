@@ -61,7 +61,7 @@ const ProductsScreen = ({navigation}: any) => {
     }
 
     const onPressAddHandler = () => {
-        //navigation.navigate('AddProductScreen');
+        return navigation.navigate('AddOrderScreen');
     }
     return (
         <ScrollView style={style.mainView}>

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { UsersData } from "../../data/Users";
+import { UsersData } from "../../repositories/Users";
 import { findToken, generateTokens, removeToken, saveToken, validateRefreshToken } from "./token";
 import { UserDto } from "../dtos/user-dto";
 import { ApiError } from "../exceptions/api-error";

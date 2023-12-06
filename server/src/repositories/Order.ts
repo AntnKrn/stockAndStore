@@ -3,7 +3,7 @@ import connection from "./connection";
 export abstract class OrdersData {
     static getOrders() {
         try {
-            const sql = "SELECT * FROM orders";
+            const sql = "SELECT * FROM orders ORDER BY data DESC";
 
             return new Promise((resolve, reject) => {
                 connection.query(sql, (err, result) => {

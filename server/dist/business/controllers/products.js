@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProduct = exports.editProduct = exports.getProducts = exports.addProduct = void 0;
 const Product_1 = require("../models/Product");
-const Products_1 = __importDefault(require("../../data/Products"));
+const Products_1 = __importDefault(require("../../repositories/Products"));
 const addProduct = async (req, res, next) => {
     try {
         const { name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description } = req.body;

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 
 import { Order } from "../models/Order";
-import { OrdersData } from "../../data/Order";
+import { OrdersData } from "../../repositories/Order";
 
 export const getOrders: RequestHandler = async(req, res, next) => {
     try {

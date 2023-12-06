@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.refresh = exports.logou = exports.log = exports.reg = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const Users_1 = require("../../data/Users");
+const Users_1 = require("../../repositories/Users");
 const token_1 = require("./token");
 const user_dto_1 = require("../dtos/user-dto");
 const api_error_1 = require("../exceptions/api-error");

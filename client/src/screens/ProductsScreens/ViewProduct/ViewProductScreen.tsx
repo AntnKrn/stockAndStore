@@ -17,7 +17,7 @@ const ViewProductScreen = ({navigation, props}: any) => {
 
     const [providers, setProviders] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>();
-    const [provider, setProvider] = useState();
+    const [provider, setProvider] = useState<any>();
   
 
     useEffect(() => {
@@ -26,6 +26,7 @@ const ViewProductScreen = ({navigation, props}: any) => {
                 const response = await axios.get("http://localhost:3000/providers");
                 setProviders(response.data);
                 setIsLoaded(true);
+                console.log(response.data);
                 response.data.map((el: any, index: number) => {
                   if(el.id === data.IDprovider) {
                     setProvider(el.name)
@@ -59,7 +60,8 @@ const ViewProductScreen = ({navigation, props}: any) => {
           </View>
           <View style={style.row}>
             <Text style={[style.cell, style.cellText]}>Поставщик</Text>
-            <Text style={style.cell}>{provider}</Text>
+            {/* <Text style={style.cell}>{provider ? <Text>Поставщик удален</Text> ? provider}</Text> */}
+            {!provider ? <Text style={style.cell}>Поставщик удален</Text> : <Text style={style.cell}>{provider}</Text>}
           </View>
           <View style={style.row}>
             <Text style={[style.cell, style.cellText]}>Цена закупки</Text>

@@ -36,7 +36,7 @@ const EditProductScreen = ({navigation, props}: any) => {
       try {
         await ProductsService.patchProducts(data.productID, name, brand, code, quantity, provider, pricePurchase, priceSale, volume, weight, dateReceipt, description)
         alert('Данные успешно отредактированы!');
-        navigation.navigate('MainTabNavigator', { screen: 'Товары' });
+        navigation.navigate('Склад', { screen: 'Товары' });
       } catch(err) {
         alert(err);
       }

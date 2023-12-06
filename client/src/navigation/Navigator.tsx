@@ -4,7 +4,7 @@ import ProductsScreen from '../screens/ProductsScreens/Products/ProductsScreen';
 import AuthorizationScreen from '../screens/AuthScreens/Authorization/AuthorizationScreen';
 import RegistrationScreen from '../screens/AuthScreens/Registration/RegistrationScreen';
 import ProfileScreen from '../screens/Profile/ProfileScreen';
-import MaterialCommunityIcons from 'react-native-vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,12 +25,14 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => (
-  <Tab.Navigator> 
-    <Tab.Screen name="Показатели" component={IndicatorsScreen} options={{ headerShown: false }}/>
-    <Tab.Screen name="Товары" component={ProductsScreen} options={{ headerShown: false }}/>
-    <Tab.Screen name="Заказы" component={TodosScreen} options={{ headerShown: false }}/>
-    <Tab.Screen name="Поставщики" component={ProvidersScreen} options={{ headerShown: false }}/>
-    <Tab.Screen name="Профиль" component={ProfileScreen} options={{ headerShown: false }}/>
+  <Tab.Navigator screenOptions={({ route }) => ({
+    unmountOnBlur: route.name === 'Профиль', 
+  })}> 
+    <Tab.Screen name="Показатели" component={IndicatorsScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="chart-line" color='black' size={26} />)}}/>
+    <Tab.Screen name="Товары" component={ProductsScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="dropbox" color='black' size={26} /> )}}/>
+    <Tab.Screen name="Заказы" component={TodosScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="cart-arrow-up" color='black' size={26} /> ) }}/>
+    <Tab.Screen name="Поставщики" component={ProvidersScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="account-group" color='black' size={26} /> ) }}/>
+    <Tab.Screen name="Профиль" component={ProfileScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="account" color='black' size={26} /> ) }}/>
   </Tab.Navigator>
 );
 
@@ -39,7 +41,7 @@ const AppNavigator = () => (
     <Stack.Navigator>
       <Stack.Screen name="AuthorizationScreen" component={AuthorizationScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} />
+      <Stack.Screen name="Склад" component={MainTabNavigator} />
       
       <Stack.Screen name="AddProductScreen" component={AddProductScreen} options={{ title: 'Добавление'}}/>
       <Stack.Screen name="EditProductScreen" component={EditProductScreen} options={{ title: 'Изменение'}}/>

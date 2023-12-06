@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteClient = exports.editClient = exports.getClients = exports.addClient = void 0;
 const Client_1 = require("../models/Client");
-const Clients_1 = require("../../data/Clients");
+const Clients_1 = require("../../repositories/Clients");
 const addClient = async (req, res, next) => {
     try {
         const { fullname, phoneNumber, address } = req.body;

@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProvider = exports.editProvider = exports.addProvider = exports.getProviders = void 0;
 const Provider_1 = require("../models/Provider");
-const Providers_1 = __importDefault(require("../../data/Providers"));
+const Providers_1 = __importDefault(require("../../repositories/Providers"));
 const getProviders = async (req, res, next) => {
     try {
         const providers = await Providers_1.default.fetchProviders();

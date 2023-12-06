@@ -2,80 +2,39 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, TextInputChangeEventData, NativeSyntheticEvent } from "react-native";
 import RNPickerSelect from 'react-native-picker-select';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import OrderService from "../../../services/OrderService";
+import { useNavigation } from '@react-navigation/native';
 
 import axios from "axios";
 
 import { style } from "./AddOrderStyles";
+import ProductsService from "../../../services/ProductsService";
+import OrderService from "../../../services/OrderService";
+import { useTypedSelector } from "../../../hooks/useTypesSelector";
 
-type Screen2RouteProp = RouteProp<Record<string, { data: any }>, 'Screen2'>;
+const AddOrderScreen = ({navigation}: any) => {
+    const {userData} = useTypedSelector(state => state.auth);
 
-const AddOrderScreen = ({navigation, props}: any) => {
-    const route = useRoute<Screen2RouteProp>();
-    const { data } = route.params;
-
-    const [providers, setProviders] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>();
+    
+    const [clientLabels, setClientLabels] = useState<string[]>([]);
+    const [clientValues, setClientValues] = useState<number[]>([]);
 
-    const [clients, setClients] = useState();
-    const [labelsForClient, setLabelsForClient] = useState<string[]>([]);
-    const [valuesForClients, setValuesForClients] = useState<number[]>([]);
-    const [isChangeClient, setIsChangeClient] = useState<boolean>(false);
+    const [productsLabels, setProductsLabels] = useState<string[]>([]);
+    const [productsValues, setProductsValues] = useState<number[]>([]);
 
-    const [products, setProducts] = useState();
-    const [labelsForProduct, setLabelsForProduct] = useState<string[]>([]);
-    const [valuesForProduct, setValuesForProduct] = useState<number[]>([]);
-    const [isChangeProduct, setIsChangeProduct] = useState<boolean>(false);
 
-    const [employees, setEmployees] = useState();
-    const [labelsForEmployee, setLabelsForEmployee] = useState<string[]>([]);
-    const [valuesForEmployee, setValuesForEmployee] = useState<number[]>([]);
-    const [isChangeEmployee, setIsChangeEmployee] = useState<boolean>(false);
-    //(IDclient, IDproduct, quantity, price, data, IDemployee) 
-
-    const [employee, setEmployee] = useState<string>(data.IDemployee);
-    const [product, setProduct] = useState<string>(data.IDproduct);
-    const [price, setPrice] = useState<string>(data.price);
-    const [date, setDate] = useState<string>(data.data);
-    const [quantity, setQuantity] = useState<string>(data.quantity);
-    const [client, setClient] = useState<string>(data.IDclient);
-
-    useEffect(() => {
-      const sendGetRequest = async() => {
-          try {
-              const ProductResponse = await axios.get("http://localhost:3000/products");
-              const EmployeeResponse = await axios.get("http://localhost:3000/employees");
-              const ClientResponse = await axios.get("http://localhost:3000/clients");
-
-              setIsLoaded(true);
-              ProductResponse.data.map((el: any, index: number) => {
-                if(el.productID === data.IDproduct) {
-                  setProduct(el.name)
-                }
-              })
-              EmployeeResponse.data.map((el: any, index: number) => {
-                if(el.employeeID === data.IDemployee) {
-                  setEmployee(el.fullname)
-                }
-              })
-              ClientResponse.data.map((el: any) => {
-                if(el.clientID === data.IDclient) {
-                  setClient(el.fullname)
-                }
-              })
-          } catch(err) {
-              console.log(err);
-          } 
-      }
-      sendGetRequest();
-  }, [])
+    const [IDclient, setIDclient] = useState<string>('');
+    const [IDproduct, setIDproduct] = useState<string>('');
+    const [quantity, setQuantity] = useState<string>('');
+    const [price, setPrice] = useState<string>('');
+    const [date, setDate] = useState<string>('');
+    const [IDemployee, setIDemployee] = useState<string>('');
 
     const handleDonePress = async () => {
       try {
-        await OrderService.patchOrders(data.orderID, data.IDclient, data.IDproduct, quantity, price, data, data.IDemployee)        
-        alert('Данные успешно отредактированы!');
-        navigation.navigate('MainTabNavigator', { screen: 'Товары' });
+        await OrderService.postOrder(IDclient, IDproduct, quantity, price, date, IDemployee);
+        alert('Данные успешно добавлены!');
+        navigation.navigate('Склад', { screen: 'Заказы' });
       } catch(err) {
         alert(err);
       }
@@ -93,117 +52,87 @@ const AddOrderScreen = ({navigation, props}: any) => {
       });
     }, [navigation, handleDonePress]);
     
+  
+    useEffect(() => {
+        const sendGetRequest = async() => {
+            try {
+                const clientsResponse = await axios.get("http://localhost:3000/clients");
+                const productsResponse = await axios.get("http://localhost:3000/products");
+                const employeeResponse = await axios.get("http://localhost:3000/employees");
+                employeeResponse.data.map((el: any, index: number) => {
+                  if(el.IDuser == userData.user.id) {
+                    setIDemployee(el.employeeID);
+                    console.log('dsadsa', IDemployee)
+                  }
+                })
+                const clietnsArrayLabels: string[] = [];
+                const clientsArrayValues: number[] = [];
+                clientsResponse.data.map((el: any, index: number) => {
+                    clietnsArrayLabels.push(el.fullname);
+                    clientsArrayValues.push(el.clientID);
+                })
 
-    const onChangePriceHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setPrice(e.nativeEvent.text)
+                const productsArrayLabels: string[] = [];
+                const productsArrayValues: number[] = [];
+                productsResponse.data.map((el: any, index: number) => {
+                    productsArrayLabels.push(el.name);
+                    productsArrayValues.push(el.productID);
+                })
+
+                setProductsLabels(productsArrayLabels);
+                setProductsValues(productsArrayValues);
+                setClientLabels(clietnsArrayLabels);
+                setClientValues(clientsArrayValues);
+                setIsLoaded(true);
+            } catch(err) {
+                console.log(err);
+            } 
+        }
+        sendGetRequest();
+    }, [])
+
+    const onChangeIDclientHandler = (e: any): void => {
+      setIDclient(e)
     }
 
-    const onChangeDateHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setDate(e.nativeEvent.text)
+    const onChangeIDproductHandler = (e: any): void => {
+      setIDproduct(e)
     }
 
     const onChangeQuantityHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
       setQuantity(e.nativeEvent.text)
     }
 
-    const onChangeClientHandler = (e: any): void => {
-      console.log(e);
-      setIsChangeClient(true);
-      setClient(e)
+    const onChangePriceHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+      setPrice(e.nativeEvent.text)
     }
-
-    const onChangeProductHandler = (e: any): void => {
-      setIsChangeProduct(true);
-      setProduct(e)
+    const onChangeDataHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+      setDate(e.nativeEvent.text)
     }
-
-    const onChangeEmployeeHandler = (e: any): void => {
-      setIsChangeEmployee(true);
-      setEmployee(e)
-    } 
-
-    useEffect(() => {
-        const requestClients = async() => {
-            try {
-                const response = await axios.get("http://localhost:3000/clients");
-                setClients(response.data);
-                const arrayLabels: string[] = [];
-                const arrayValues: number[] = [];
-                response.data.map((el: any, index: number) => {
-                    arrayLabels.push(el.fullname);
-                    arrayValues.push(el.clientID);
-                })
-                setLabelsForClient(arrayLabels);
-                setValuesForClients(arrayValues);
-            } catch(err) {
-                console.log(err);
-            } 
-        }
-
-        const requestProducts = async() => {
-          try {
-              const response = await axios.get("http://localhost:3000/products");
-              setProducts(response.data);
-              const arrayLabels: string[] = [];
-              const arrayValues: number[] = [];
-              response.data.map((el: any, index: number) => {
-                  arrayLabels.push(el.name);
-                  arrayValues.push(el.productID);
-              })
-              setLabelsForProduct(arrayLabels);
-              setValuesForProduct(arrayValues);
-          } catch(err) {
-              console.log(err);
-          } 
-        }
-
-        const requestEmployees = async() => {
-          try {
-              const response = await axios.get("http://localhost:3000/employees");
-              setEmployees(response.data);
-              const arrayLabels: string[] = [];
-              const arrayValues: number[] = [];
-              response.data.map((el: any, index: number) => {
-                  arrayLabels.push(el.fullname);
-                  arrayValues.push(el.employeeID);
-              })
-              setLabelsForEmployee(arrayLabels);
-              setValuesForEmployee(arrayValues);
-          } catch(err) {
-              console.log(err);
-          } 
-        }
-        requestProducts();
-        requestEmployees();
-        requestClients();
-        setIsLoaded(true);
-    }, [])
-    console.log(client)
+    console.log(date);
     return (
         <View style={style.mainView}>
-            <View style={style.providers as any}>
+          <View style={style.providers as any}>
               <RNPickerSelect
-                value={data.IDclient}
                   style={{placeholder: {
                     color: '#71a2b9'
                 }}}
                   placeholder={{label: 'Выберите клиента', value: null }}
-                  onValueChange={onChangeClientHandler}
-                  items={valuesForClients.map((el: any, index: number) => {
-                    return {label: labelsForClient[index], value: valuesForClients[index]}
+                  onValueChange={onChangeIDclientHandler}
+                  items={clientValues.map((el: any, index: number) => {
+                    return {label: clientLabels[index], value: clientValues[index]}
                   })}></RNPickerSelect>
             </View>
 
             <View style={style.providers as any}>
               <RNPickerSelect
-                value={data.IDproduct}
                   style={{placeholder: {
                     color: '#71a2b9'
                 }}}
                   placeholder={{label: 'Выберите товар', value: null }}
-                  onValueChange={onChangeProductHandler}
-                  items={valuesForProduct.map((el: any, index: number) => {
-                    return {label: labelsForProduct[index], value: valuesForProduct[index]}
+                  onValueChange={onChangeIDproductHandler}
+                  items={productsValues.map((el: any, index: number) => {
+                    return {label: productsLabels[index], value: productsValues[index]}
                   })}></RNPickerSelect>
             </View>
 
@@ -213,41 +142,24 @@ const AddOrderScreen = ({navigation, props}: any) => {
               autoCapitalize="none"
               autoCorrect= {false}
               onChange={onChangeQuantityHandler}
-              value={String(data.quantity)}
             />
 
             <TextInput 
               style={style.inputText}
-              placeholder="Цена" 
+              placeholder="Дата" 
               autoCapitalize="none"
               autoCorrect= {false}
-              onChange={onChangePriceHandler}
-              value={price}
+              onChange={onChangeDataHandler}
             />
 
             <TextInput 
-            style={style.inputNumber}
-            placeholder="Дата доставки" 
-            autoCapitalize="none"
-            autoCorrect= {false}
-            onChange={onChangeDateHandler}
-            value={date}
+              style={style.inputNumber}
+              placeholder="Цена" 
+              keyboardType="numeric"
+              autoCapitalize="none"
+              autoCorrect= {false}
+              onChange={onChangePriceHandler}
             />
-
-            <View style={style.providers as any}>
-              <RNPickerSelect
-                value={data.IDemployee}
-                  style={{placeholder: {
-                    color: '#71a2b9'
-                }}}
-                  placeholder={{label: 'Выберите работника', value: null }}
-                  onValueChange={onChangeEmployeeHandler}
-                  items={valuesForEmployee.map((el: any, index: number) => {
-                    return {label: labelsForEmployee[index], value: valuesForEmployee[index]}
-                  })}></RNPickerSelect>
-            </View> 
- 
-            
         </View>
       )
 }

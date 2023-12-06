@@ -29,7 +29,7 @@ const AuthorizationScreen = ({navigation}: any) => {
 
   useEffect(() => {
     if (isAuth) {
-      navigation.replace('MainTabNavigator', { screen: 'Товары' });
+      return navigation.replace('Склад', { screen: 'Товары' });
     }
   }, [isAuth]);
 

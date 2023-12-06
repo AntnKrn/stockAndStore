@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postUser = exports.getUsers = void 0;
-const Users_1 = require("../../data/Users");
+const Users_1 = require("../../repositories/Users");
 const User_1 = require("../models/User");
 const getUsers = async (req, res, next) => {
     try {

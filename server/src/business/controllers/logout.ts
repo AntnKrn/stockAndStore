@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-import { UsersData } from "../../data/Users";
+import { UsersData } from "../../repositories/Users";
 import { logou } from "../services/user";
 
 export const logout: RequestHandler = async(req, res, next) => {

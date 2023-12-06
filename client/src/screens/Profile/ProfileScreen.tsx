@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { style } from "./ProfileStyles";
 import { logout } from "../../store/actions/authAction";
 import EmployeesService from "../../services/EmployeesService";
+import axios from "axios";
 
 const ProfileScreen = ({navigation}: any) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const ProfileScreen = ({navigation}: any) => {
           <View style={style.info}>
             <Text style={{fontSize: 35, fontWeight: 'bold'}}>{userData.user.login}</Text>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>Пышко Илья Викторович</Text>
-            <Text style={{ fontSize: 17 }}>{userData.user.role}</Text>
+            <Text style={{ fontSize: 17 }}>Администратор</Text>
             {userData.user.role === "user" ? <Text style={{margin: 50}}>Удалить пользователя</Text> : null}
             {userData.user.role === "user" ? <Text style={{margin: 50}}>Изменить роль работнику</Text> : null}
           </View>

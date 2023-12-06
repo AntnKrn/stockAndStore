@@ -46,44 +46,24 @@ const ViewProviderScreen = ({navigation, props}: any) => {
             <Text style={style.cell}>{data.name}</Text>
           </View>
           <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Бренд</Text>
-            <Text style={style.cell}>{data.brand}</Text>
+            <Text style={[style.cell, style.cellText]}>Номер телефона</Text>
+            <Text style={style.cell}>{data.phoneNumber}</Text>
           </View>
           <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Код</Text>
-            <Text style={style.cell}>{data.code}</Text>
+            <Text style={[style.cell, style.cellText]}>Категория</Text>
+            <Text style={style.cell}>{data.category}</Text>
           </View>
           <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Количество</Text>
-            <Text style={style.cell}>{data.quantity}</Text>
+            <Text style={[style.cell, style.cellText]}>Адрес</Text>
+            <Text style={style.cell}>{data.address}</Text>
           </View>
           <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Поставщик</Text>
-            <Text style={style.cell}>{provider}</Text>
+            <Text style={[style.cell, style.cellText]}>Контактное лицо</Text>
+            <Text style={style.cell}>{data.contactPerson}</Text>
           </View>
           <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Цена закупки</Text>
-            <Text style={style.cell}>{data.pricePurchase}</Text>
-          </View>
-          <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Цена продажи</Text>
-            <Text style={style.cell}>{data.priceSale}</Text>
-          </View>
-          <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Объем</Text>
-            <Text style={style.cell}>{data.volume}</Text>
-          </View>
-          <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Вес</Text>
-            <Text style={style.cell}>{data.weight}</Text>
-          </View>
-          <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Дата поставки</Text>
-            <Text style={style.cell}>{data.dateReceipt}</Text>
-          </View>
-          <View style={style.row}>
-            <Text style={[style.cell, style.cellText]}>Описание</Text>
-            <Text style={style.cell}>{data.description}</Text>
+            <Text style={[style.cell, style.cellText]}>Почта</Text>
+            <Text style={style.cell}>{data.email}</Text>
           </View>
         </View>
       </ScrollView>
