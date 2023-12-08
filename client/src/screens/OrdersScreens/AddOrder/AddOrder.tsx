@@ -60,7 +60,7 @@ const AddOrderScreen = ({navigation}: any) => {
                 const productsResponse = await axios.get("http://localhost:3000/products");
                 const employeeResponse = await axios.get("http://localhost:3000/employees");
                 employeeResponse.data.map((el: any, index: number) => {
-                  if(el.IDuser == userData.user.id) {
+                  if(el.IDuser === userData.user.id) {
                     setIDemployee(el.employeeID);
                     console.log('dsadsa', IDemployee)
                   }

@@ -53,7 +53,6 @@ const ProductsScreen = ({navigation}: any) => {
         return navigation.navigate('EditProviderScreen', { data: product });
     }
 
-
     const onPressAddHandler = () => {
         return navigation.navigate('AddProviderScreen');
     }
@@ -71,7 +70,7 @@ const ProductsScreen = ({navigation}: any) => {
                         category={el.category}
                         pic={index}
                         onPressEditHandler={() => onPressEditHandler(el)}
-                        onPressDeleteHandler={() => onPressDeleteHandler(el.productID)}
+                        onPressDeleteHandler={() => onPressDeleteHandler(el.id)}
                         onPressViewHandler={() => onPressViewHandler(el)}
                     />);
                 })

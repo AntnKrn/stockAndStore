@@ -20,21 +20,26 @@ import AddOrderScreen from '../screens/OrdersScreens/AddOrder/AddOrder';
 import AddProviderScreen from '../screens/ProvidersScreens/AddProvider/AddProviderScreen';
 import ViewProviderScreen from '../screens/ProvidersScreens/ViewProvider/ViewProviderScreen';
 import EditProviderScreen from '../screens/ProvidersScreens/EditProvider/EditProviderScreen';
+import { useTypedSelector } from '../hooks/useTypesSelector';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MainTabNavigator = () => (
-  <Tab.Navigator screenOptions={({ route }) => ({
-    unmountOnBlur: route.name === 'Профиль', 
-  })}> 
-    <Tab.Screen name="Показатели" component={IndicatorsScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="chart-line" color='black' size={26} />)}}/>
-    <Tab.Screen name="Товары" component={ProductsScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="dropbox" color='black' size={26} /> )}}/>
-    <Tab.Screen name="Заказы" component={TodosScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="cart-arrow-up" color='black' size={26} /> ) }}/>
-    <Tab.Screen name="Поставщики" component={ProvidersScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="account-group" color='black' size={26} /> ) }}/>
-    <Tab.Screen name="Профиль" component={ProfileScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="account" color='black' size={26} /> ) }}/>
-  </Tab.Navigator>
-);
+const MainTabNavigator = () => {
+  const {userData} = useTypedSelector(state => state.auth);
+
+  return (
+    <Tab.Navigator screenOptions={({ route }) => ({
+      unmountOnBlur: route.name === 'Профиль', 
+    })}> 
+      {userData?.user?.role === 'owner' ? <Tab.Screen name="Показатели" component={IndicatorsScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="chart-line" color='black' size={26} />)}}/> : null}
+      <Tab.Screen name="Товары" component={ProductsScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="dropbox" color='black' size={26} /> )}}/>
+      <Tab.Screen name="Заказы" component={TodosScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="cart-arrow-up" color='black' size={26} /> ) }}/>
+      <Tab.Screen name="Поставщики" component={ProvidersScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="account-group" color='black' size={26} /> ) }}/>
+      <Tab.Screen name="Профиль" component={ProfileScreen} options={{ headerShown: false, tabBarIcon: () => (<MaterialCommunityIcons name="account" color='black' size={26} /> ) }}/>
+    </Tab.Navigator>
+  )
+};
 
 const AppNavigator = () => (
   <NavigationContainer>

@@ -3,8 +3,12 @@ import { NativeSyntheticEvent, Pressable, Text, TextInput, TextInputChangeEventD
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {style} from './OrderItemStyles'
+import { useTypedSelector } from "../../hooks/useTypesSelector";
+
 
 const OrderItem = (props: any) => {
+    const {userData} = useTypedSelector(state => state.auth);
+
   return (
         <View style={style.container}>
             <View>
@@ -18,8 +22,8 @@ const OrderItem = (props: any) => {
             </View>
             <Pressable style={style.edit}>
                 <MaterialCommunityIcons style={style.icon} name="eye" size={24} color="black" onPress={props.onPressViewHandler}/>
-                <MaterialCommunityIcons style={style.icon} name="content-save-edit-outline" size={24} color="black" onPress={props.onPressEditHandler}/>
-                <MaterialCommunityIcons style={style.icon} name="delete" size={24} color="black" onPress={props.onPressDeleteHandler}/>
+                {userData?.user?.role !== 'user' ? <MaterialCommunityIcons style={style.icon} name="content-save-edit-outline" size={24} color="black" onPress={props.onPressEditHandler}/> : null}
+                {userData?.user?.role !== 'user' ? <MaterialCommunityIcons style={style.icon} name="delete" size={24} color="black" onPress={props.onPressDeleteHandler}/> : null}
             </Pressable>
         </View>
   )//content-save-edit-outline

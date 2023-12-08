@@ -15,7 +15,7 @@ const AuthorizationScreen = ({navigation}: any) => {
 
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  console.log(isAuth)
+
   const onChangeLogin = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
         setLogin(e.nativeEvent.text);
   }
@@ -24,7 +24,7 @@ const AuthorizationScreen = ({navigation}: any) => {
   }
 
   const onPressHandler = async() => {
-    await dispatch<any>(fetchUserData(login, password));
+    return await dispatch<any>(fetchUserData(login, password));
   }
 
   useEffect(() => {
