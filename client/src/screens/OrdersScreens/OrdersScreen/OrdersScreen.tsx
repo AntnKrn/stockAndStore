@@ -46,22 +46,21 @@ const ProductsScreen = ({navigation}: any) => {
     }, [isFocused, refresh])
 
     const onPressDeleteHandler = async (id: number) => {
-        console.log(id)
         await OrderService.deleteOrder(id);
         setRefresh(true);
     }
 
     const onPressViewHandler = (order: any) => {
-        navigation.navigate('ViewOrderScreen', { data: order });
+        navigation.replace('ViewOrderScreen', { data: order });
     }
 
 
     const onPressEditHandler = (order: any) => {
-        navigation.navigate('EditOrderScreen', { data: order });
+        navigation.replace('EditOrderScreen', { data: order });
     }
 
     const onPressAddHandler = () => {
-        return navigation.navigate('AddOrderScreen');
+        navigation.replace('AddOrderScreen');
     }
     return (
         <ScrollView style={style.mainView}>

@@ -15,6 +15,7 @@ export default class ProductsService{
     }
 
     static async patchProducts(id: number, name: string, brand: string, code: string, quantity: string, IDprovider: string, pricePurchase: string, priceSale: string, volume: string, weight: string, dateReceipt: string, description: string): Promise<void> {
-        return $api.patch(`/products/${id}`, {name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description});
+        return $api.patch(`/products/${id}`, {name, brand, code, quantity, IDprovider, pricePurchase, priceSale, volume, weight, dateReceipt, description})
+
     }
 }

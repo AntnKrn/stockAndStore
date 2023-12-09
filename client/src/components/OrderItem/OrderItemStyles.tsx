@@ -25,7 +25,6 @@ export const style = StyleSheet.create({
     codeAndName: {
         fontSize: 17,
         overflow: 'hidden',
-        textOverflow: 'ellipsis',
         height: 30,
         width: 300
     },

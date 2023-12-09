@@ -48,6 +48,7 @@ const ProductsScreen = ({navigation}: any) => {
 
 
     const onPressEditHandler = (product: any) => {
+        navigation.removeListener();
         navigation.navigate('EditProductScreen', { data: product });
     }
 

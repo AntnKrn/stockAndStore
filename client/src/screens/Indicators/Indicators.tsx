@@ -50,13 +50,11 @@ const IndicatorsScreen = ({navigation}: any) => {
               thirdMonthEnd.setDate(31);
 
               if(date >= thisMonthStart && date <= thisMonthEnd) {
-                  console.log(el)
                   quantity_ += el.quantity;
                   total_ += Number(el.price)
                   responseProducts.data.map((elPr: any) => {
                     if(elPr.productID === el.IDproduct) {
                       spent_ += elPr.pricePurchase * el.quantity;
-                      console.log('frst', spent_)
                     }
                   })
               }
@@ -67,7 +65,6 @@ const IndicatorsScreen = ({navigation}: any) => {
                   responseProducts.data.map((elPr: any) => {
                     if(elPr.productID === el.IDproduct) {
                       spent_ += elPr.pricePurchase * el.quantity;
-                      console.log('sec', spent_)
                     }
                   })
               }
@@ -78,11 +75,9 @@ const IndicatorsScreen = ({navigation}: any) => {
                   responseProducts.data.map((elPr: any) => {
                     if(elPr.productID === el.IDproduct) {
                       spent_ += elPr.pricePurchase * el.quantity;
-                      console.log('third', spent_)
                     }
                   })
-              }
-              
+              }          
             }) 
             
             setQuantity(quantity_);

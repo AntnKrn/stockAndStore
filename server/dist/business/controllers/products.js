@@ -52,6 +52,7 @@ const editProduct = async (req, res, next) => {
     }
     catch (err) {
         console.log("error from editPorduct controller", err);
+        res.status(500).json({ message: err.sqlMessage });
     }
 };
 exports.editProduct = editProduct;

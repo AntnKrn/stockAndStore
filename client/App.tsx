@@ -8,12 +8,14 @@ import Navigator from './src/navigation/Navigator';
 import AppNavigator from './src/navigation/Navigator';
 import { LogBox } from 'react-native';
 
+
 LogBox.ignoreLogs(['Warning: ...']);
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 
 export default function App() {
+LogBox.ignoreAllLogs()
   return (
     <Provider store={store}>
       <AppNavigator />

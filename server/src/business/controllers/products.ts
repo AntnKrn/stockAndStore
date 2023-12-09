@@ -50,8 +50,9 @@ export const editProduct: RequestHandler<{id: number}> = async (req, res, next) 
 
         await ProductsData.editProduct(updatedProduct);
         res.status(201).json({ message: "Product added", addedProduct: updatedProduct }) 
-    }catch(err) {
+    }catch(err: any) {
         console.log("error from editPorduct controller", err);
+        res.status(500).json({message: err.sqlMessage})
     }
 }
 

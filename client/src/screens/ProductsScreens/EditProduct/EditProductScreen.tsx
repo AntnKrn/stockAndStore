@@ -8,12 +8,18 @@ import axios from "axios";
 
 import { style } from "./EditProductStyles";
 import ProductsService from "../../../services/ProductsService";
+import { Animated } from "react-native";
 
 type Screen2RouteProp = RouteProp<Record<string, { data: any }>, 'Screen2'>;
 
 const EditProductScreen = ({navigation, props}: any) => {
-    const route = useRoute<Screen2RouteProp>();
+  const route = useRoute<Screen2RouteProp>();
     const { data } = route.params;
+
+    const formateDate = (date: Date) => {
+      const date_ = new Date(date); 
+      return `${date_.getFullYear()}-${date_.getMonth() + 1}-${date_.getDate()}`;
+    }
 
     const [providers, setProviders] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>();
@@ -29,16 +35,19 @@ const EditProductScreen = ({navigation, props}: any) => {
     const [priceSale, setPriceSale] = useState<string>(data.priceSale);
     const [volume, setVolume] = useState<string>(data.volume);
     const [weight, setWeigth] = useState<string>(data.weight);
-    const [dateReceipt, setDateReceipt] = useState<string>(data.dateReceipt);
+    const [dateReceipt, setDateReceipt] = useState<string>(formateDate(data.dateReceipt));
     const [description, setDescription] = useState<string>(data.description);
+
+ 
 
     const handleDonePress = async () => {
       try {
         await ProductsService.patchProducts(data.productID, name, brand, code, quantity, provider, pricePurchase, priceSale, volume, weight, dateReceipt, description)
         alert('Данные успешно отредактированы!');
+        
         navigation.navigate('Склад', { screen: 'Товары' });
-      } catch(err) {
-        alert(err);
+      } catch(err: any) {
+        alert('Данные с таким кодом уже существуют!');
       }
     }
 
@@ -67,23 +76,109 @@ const EditProductScreen = ({navigation, props}: any) => {
     }
 
     const onChangeQuantityHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setQuantity(e.nativeEvent.text)
+      const number: any = e.nativeEvent.text;
+      const numericValue = number.replace(/[^0-9]/g, '');
+      setQuantity(numericValue);
     }
 
     const onChangePricePurchaseHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setPricePurchase(e.nativeEvent.text)
-    }
+      const number: any = e.nativeEvent.text;
+    
+      const numericValue = number.replace(/[^0-9.]/g, '');
+    
+      const parts = numericValue.split('.');
+      let integerPart = parts[0];
+      let decimalPart = parts[1];
+
+      if (decimalPart && decimalPart.length > 2) {
+        decimalPart = decimalPart.slice(0, 2);
+      }
+
+      if(integerPart.length > 4) {
+        integerPart = integerPart.slice(0, 4)
+      }
+    
+      const formattedNumericValue = decimalPart !== undefined
+        ? `${integerPart}.${decimalPart}`
+        : integerPart
+    
+      setPricePurchase(formattedNumericValue);
+    };
+
+    console.log(pricePurchase);
 
     const onChangePriceSaleHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setPriceSale(e.nativeEvent.text)
+      const number: any = e.nativeEvent.text;
+    
+      const numericValue = number.replace(/[^0-9.]/g, '');
+    
+      const parts = numericValue.split('.');
+      let integerPart = parts[0];
+      let decimalPart = parts[1];
+
+      if (decimalPart && decimalPart.length > 2) {
+        decimalPart = decimalPart.slice(0, 2);
+      }
+
+      if(integerPart.length > 4) {
+        integerPart = integerPart.slice(0, 4)
+      }
+    
+      const formattedNumericValue = decimalPart !== undefined
+        ? `${integerPart}.${decimalPart}`
+        : integerPart
+    
+      setPriceSale(formattedNumericValue)
     }
 
     const onChangeVolumeHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setVolume(e.nativeEvent.text)
+      const number: any = e.nativeEvent.text;
+    
+      const numericValue = number.replace(/[^0-9.]/g, '');
+    
+      const parts = numericValue.split('.');
+      let integerPart = parts[0];
+      let decimalPart = parts[1];
+
+      if (decimalPart && decimalPart.length > 2) {
+        decimalPart = decimalPart.slice(0, 2);
+      }
+
+      if(integerPart.length > 3) {
+        integerPart = integerPart.slice(0, 3)
+      }
+    
+      const formattedNumericValue = decimalPart !== undefined
+        ? `${integerPart}.${decimalPart}`
+        : integerPart
+    
+      
+      setVolume(formattedNumericValue)
     }
 
     const onChangeWeightHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setWeigth(e.nativeEvent.text)
+      const number: any = e.nativeEvent.text;
+    
+      const numericValue = number.replace(/[^0-9.]/g, '');
+    
+      const parts = numericValue.split('.');
+      let integerPart = parts[0];
+      let decimalPart = parts[1];
+
+      if (decimalPart && decimalPart.length > 2) {
+        decimalPart = decimalPart.slice(0, 2);
+      }
+
+      if(integerPart.length > 4) {
+        integerPart = integerPart.slice(0, 4)
+      }
+    
+      const formattedNumericValue = decimalPart !== undefined
+        ? `${integerPart}.${decimalPart}`
+        : integerPart
+    
+    
+      setWeigth(formattedNumericValue)
     }
 
     const onChangeDateReceiptHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
@@ -118,7 +213,6 @@ const EditProductScreen = ({navigation, props}: any) => {
         }
         sendGetRequest();
     }, [])
-
     return (
         <View style={style.mainView}>
             <TextInput 
@@ -128,6 +222,7 @@ const EditProductScreen = ({navigation, props}: any) => {
               autoCorrect= {false}
               onChange={onChangeNameHandler}
               value={name}
+              maxLength={100}
             />
             <TextInput 
               style={style.inputText}
@@ -136,6 +231,7 @@ const EditProductScreen = ({navigation, props}: any) => {
               autoCorrect= {false}
               onChange={onChangeBrandHandler}
               value={brand}
+              maxLength={100}
             />
             <TextInput 
               style={style.inputText}
@@ -144,6 +240,7 @@ const EditProductScreen = ({navigation, props}: any) => {
               autoCorrect= {false}
               onChange={onChangeCodeHandler}
               value={code}
+              maxLength={10}
             />
 
             <TextInput 
@@ -220,6 +317,7 @@ const EditProductScreen = ({navigation, props}: any) => {
               autoCorrect= {false}
               onChange={onChangeDescriptionHandler}
               value={description}
+              maxLength={100}
             />
             
         </View>

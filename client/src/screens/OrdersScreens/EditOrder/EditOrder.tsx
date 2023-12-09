@@ -8,6 +8,8 @@ import OrderService from "../../../services/OrderService";
 import axios from "axios";
 
 import { style } from "./EditOrderStyles";
+import ProductItem from "../../../components/ProductItem/ProductItem";
+import ProductsService from "../../../services/ProductsService";
 
 type Screen2RouteProp = RouteProp<Record<string, { data: any }>, 'Screen2'>;
 
@@ -73,7 +75,8 @@ const EditOrderScreen = ({navigation, props}: any) => {
 
     const handleDonePress = async () => {
       try {
-        await OrderService.patchOrders(data.orderID, data.IDclient, data.IDproduct, quantity, price, data, data.IDemployee)        
+        await OrderService.patchOrders(data.orderID, data.IDclient, data.IDproduct, quantity, price, data, data.IDemployee) 
+        //await ProductsService.patchProducts()       
         alert('Данные успешно отредактированы!');
         navigation.navigate('Склад', { screen: 'Товары' });
       } catch(err) {

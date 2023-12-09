@@ -24,14 +24,14 @@ const AuthorizationScreen = ({navigation}: any) => {
   }
 
   const onPressHandler = async() => {
-    return await dispatch<any>(fetchUserData(login, password));
+    await dispatch<any>(fetchUserData(login, password));
   }
 
   useEffect(() => {
     if (isAuth) {
-      return navigation.replace('Склад', { screen: 'Товары' });
+      navigation.replace('Склад', { screen: 'Товары' });
     }
-  }, [isAuth]);
+  }, [isAuth, navigation]);
 
   return (
         <View style={style.container}>

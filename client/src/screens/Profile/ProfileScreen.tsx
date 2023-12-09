@@ -52,8 +52,7 @@ const ProfileScreen = ({navigation}: any) => {
             <Text style={{fontSize: 35, fontWeight: 'bold'}}>{userData.user.login}</Text>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>{fullname}</Text>
             <Text style={{ fontSize: 17 }}>{userData.user.role}</Text>
-            {userData.user.role !== "user" ? <Text style={{margin: 50}}>Удалить пользователя</Text> : null}
-            {userData.user.role !== "user" ? <Text style={{margin: 50}}>Изменить роль работнику</Text> : null}
+            {userData.user.role !== "user" ? <Text style={{margin: 50}}>Сотрудники</Text> : null}
           </View>
           <Pressable 
             style={style as any} 

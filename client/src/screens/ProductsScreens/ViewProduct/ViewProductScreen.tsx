@@ -18,7 +18,12 @@ const ViewProductScreen = ({navigation, props}: any) => {
     const [providers, setProviders] = useState<any>();
     const [isLoaded, setIsLoaded] = useState<boolean>();
     const [provider, setProvider] = useState<any>();
-  
+    const [formatedDate, setFormatedDate] = useState<string>();
+
+    const formateDate = (date: Date) => {
+      const date_ = new Date(date); 
+      return `${date_.getFullYear()}-${date_.getMonth() + 1}-${date_.getDate()}`;
+    }
 
     useEffect(() => {
         const sendGetRequest = async() => {
@@ -26,7 +31,6 @@ const ViewProductScreen = ({navigation, props}: any) => {
                 const response = await axios.get("http://localhost:3000/providers");
                 setProviders(response.data);
                 setIsLoaded(true);
-                console.log(response.data);
                 response.data.map((el: any, index: number) => {
                   if(el.id === data.IDprovider) {
                     setProvider(el.name)
@@ -36,6 +40,7 @@ const ViewProductScreen = ({navigation, props}: any) => {
                 console.log(err);
             } 
         }
+        setFormatedDate(formateDate(data.dateReceipt));
         sendGetRequest();
     }, [])
 
@@ -60,7 +65,6 @@ const ViewProductScreen = ({navigation, props}: any) => {
           </View>
           <View style={style.row}>
             <Text style={[style.cell, style.cellText]}>Поставщик</Text>
-            {/* <Text style={style.cell}>{provider ? <Text>Поставщик удален</Text> ? provider}</Text> */}
             {!provider ? <Text style={style.cell}>Поставщик удален</Text> : <Text style={style.cell}>{provider}</Text>}
           </View>
           <View style={style.row}>
@@ -81,7 +85,7 @@ const ViewProductScreen = ({navigation, props}: any) => {
           </View>
           <View style={style.row}>
             <Text style={[style.cell, style.cellText]}>Дата поставки</Text>
-            <Text style={style.cell}>{data.dateReceipt}</Text>
+            <Text style={style.cell}>{formatedDate}</Text>
           </View>
           <View style={style.row}>
             <Text style={[style.cell, style.cellText]}>Описание</Text>
