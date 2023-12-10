@@ -19,7 +19,7 @@ export abstract class OrdersData {
         }
     }
 
-    static postOrder(client: object) {
+    static postOrder(client: any) {
         try {
             const sql = "INSERT INTO orders (IDclient, IDproduct, quantity, price, data, IDemployee) VALUES (?,?,?,?,?,?)";
             const data = Object.values(client);
@@ -29,6 +29,12 @@ export abstract class OrdersData {
                     if(err) {
                         reject(err);
                     } else {
+                        connection.query(`UPDATE products SET quantity = quantity - ${client.quantity} WHERE productID = ${client.IDproduct}`, (err, result) => {
+                            if(err) {
+                                console.log(err);
+                            }
+                        })
+                        
                         resolve(result);
                     }
                 })

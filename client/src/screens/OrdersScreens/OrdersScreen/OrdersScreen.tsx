@@ -51,16 +51,16 @@ const ProductsScreen = ({navigation}: any) => {
     }
 
     const onPressViewHandler = (order: any) => {
-        navigation.replace('ViewOrderScreen', { data: order });
+        navigation.navigate('ViewOrderScreen', { data: order });
     }
 
 
     const onPressEditHandler = (order: any) => {
-        navigation.replace('EditOrderScreen', { data: order });
+        navigation.navigate('EditOrderScreen', { data: order });
     }
 
     const onPressAddHandler = () => {
-        navigation.replace('AddOrderScreen');
+        navigation.navigate('AddOrderScreen');
     }
     return (
         <ScrollView style={style.mainView}>

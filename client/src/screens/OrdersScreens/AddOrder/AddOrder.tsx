@@ -29,6 +29,8 @@ const AddOrderScreen = ({navigation}: any) => {
     const [price, setPrice] = useState<string>('');
     const [date, setDate] = useState<string>('');
     const [IDemployee, setIDemployee] = useState<string>('');
+    const [products, setProducts] = useState<any>();
+    const [maxQuantity, setMaxQuantity] = useState<number>(1);
 
     const handleDonePress = async () => {
       try {
@@ -59,10 +61,10 @@ const AddOrderScreen = ({navigation}: any) => {
                 const clientsResponse = await axios.get("http://localhost:3000/clients");
                 const productsResponse = await axios.get("http://localhost:3000/products");
                 const employeeResponse = await axios.get("http://localhost:3000/employees");
+                setProducts(productsResponse.data);
                 employeeResponse.data.map((el: any, index: number) => {
                   if(el.IDuser === userData.user.id) {
                     setIDemployee(el.employeeID);
-                    console.log('dsadsa', IDemployee)
                   }
                 })
                 const clietnsArrayLabels: string[] = [];
@@ -91,25 +93,45 @@ const AddOrderScreen = ({navigation}: any) => {
         sendGetRequest();
     }, [])
 
+    useEffect(() => {
+      products?.map((el: any) => {
+        //console.log(el.productID)
+        if(el.productID == IDproduct) {
+          console.log(el);
+          setMaxQuantity(el.quantity);
+        }  
+      })
+    }, [IDproduct])
+
     const onChangeIDclientHandler = (e: any): void => {
       setIDclient(e)
     }
 
     const onChangeIDproductHandler = (e: any): void => {
+      const selectedProduct = products.find((product: any) => product.productID === e);
+      if (selectedProduct) {
+        setMaxQuantity(selectedProduct.quantity); 
+      }
       setIDproduct(e)
     }
 
     const onChangeQuantityHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      setQuantity(e.nativeEvent.text)
+      const parsedQty = Number(e.nativeEvent.text);
+      if (Number.isNaN(parsedQty) || parsedQty > maxQuantity) {
+        setQuantity('');
+      } else {
+        setQuantity(parsedQty.toString());
+      }
     }
 
     const onChangePriceHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
       setPrice(e.nativeEvent.text)
     }
+    
     const onChangeDataHandler = (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
       setDate(e.nativeEvent.text)
     }
-    console.log(date);
+    console.log(quantity);
     return (
         <View style={style.mainView}>
           <View style={style.providers as any}>
@@ -142,6 +164,7 @@ const AddOrderScreen = ({navigation}: any) => {
               autoCapitalize="none"
               autoCorrect= {false}
               onChange={onChangeQuantityHandler}
+              value={quantity}
             />
 
             <TextInput 

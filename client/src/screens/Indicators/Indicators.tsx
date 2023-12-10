@@ -5,6 +5,7 @@ import axios from "axios";
 import { style } from "./IndicatorsStyles";
 import {Grafic} from '../../components/Grafic/Grafic';
 import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const IndicatorsScreen = ({navigation}: any) => {
   const isFocus = useIsFocused();
@@ -110,15 +111,15 @@ const IndicatorsScreen = ({navigation}: any) => {
               </View>
               <View>
                 <Text>Сумма</Text>
-                <Text style={{ alignSelf: 'center' }}>{total}</Text>
+                <Text style={{ alignSelf: 'center' }}>{total?.toFixed(2)}</Text>
               </View>
               <View>
                 <Text>Затрачено</Text>
-                <Text style={{ alignSelf: 'center' }}>{spent}</Text>
+                <Text style={{ alignSelf: 'center' }}>{spent?.toFixed(2)}</Text>
               </View>
               <View>
                 <Text>Прибыль</Text>
-                <Text style={{ alignSelf: 'center' }}>{isLoaded ? <Text>{earned}</Text> : null}</Text>
+                <Text style={{ alignSelf: 'center' }}>{isLoaded ? <Text>{earned?.toFixed(2)}</Text> : null}</Text>
               </View>
             </View>
             <View style={{alignSelf: 'center', paddingVertical: 80}}>

@@ -10,6 +10,7 @@ import axios from "axios";
 import { style } from "./AddProductStyles";
 import ProductsService from "../../../services/ProductsService";
 import DatePicker from "react-native-datepicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AddProductScreen = ({navigation}: any) => {
    const currentDate = new Date();
@@ -31,9 +32,24 @@ const AddProductScreen = ({navigation}: any) => {
     const [description, setDescription] = useState<string>('');
 
     const [date, setDate] = useState<Date>(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));
-    
+    const [meters, setMetrs] = useState<number>(0);
+
+    const getMeters = async() => {
+      const responseProducts = await axios.get('http://localhost:3000/products');
+      let metrs_ = 0;
+      responseProducts.data.map((el: any) => {
+        metrs_ += el.volume * el.quantity;
+      })
+      setMetrs(metrs_);
+    }
+
     const handleDonePress = async () => {
       try {
+        console.log(meters)
+        if(Number(quantity) * Number(volume) > meters) {
+          alert('Невозможно добавить товар. Склад будет перегружен')
+          return;
+        }
         await ProductsService.postProducts(name, brand, code, quantity, provider, pricePurchase, priceSale, volume, weight, dateReceipt, description)
         alert('Данные успешно добавлены!');
         navigation.navigate('Склад', { screen: 'Товары' });
@@ -118,6 +134,7 @@ const AddProductScreen = ({navigation}: any) => {
             } 
         }
         sendGetRequest();
+        getMeters();
     }, [])
 
     const onChangeDate = (event: Event, date?: any) => {
@@ -125,7 +142,6 @@ const AddProductScreen = ({navigation}: any) => {
       setDate(date);
       setDateReceipt(formatedDate);
     }
-
     return (
         <View style={style.mainView}>
             <TextInput 

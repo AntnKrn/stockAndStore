@@ -34,6 +34,11 @@ class OrdersData {
                         reject(err);
                     }
                     else {
+                        connection_1.default.query(`UPDATE products SET quantity = quantity - ${client.quantity} WHERE productID = ${client.IDproduct}`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
                         resolve(result);
                     }
                 });
