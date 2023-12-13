@@ -2,11 +2,11 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { style } from "./OrderItemStyles";
+import { style } from "./EmployeeItemStyles";
 import { useTypedSelector } from "../../hooks/useTypesSelector";
 import { formateDate } from "../../helpers/formateDate";
 
-const OrderItem = (props: any) => {
+const EmployeeItem = (props: any) => {
   const { userData } = useTypedSelector((state) => state.auth);
 
   return (
@@ -15,12 +15,8 @@ const OrderItem = (props: any) => {
         <Text style={style.pic}>{props.pic}</Text>
       </View>
       <View>
-        <Text style={style.codeAndName}>
-          {props.clientName === null ? "Клиент удален" : props.clientName}
-        </Text>
-        <Text>
-          {formateDate(props.data)} • {props.price}
-        </Text>
+        <Text style={style.codeAndName}>{props.fullname}</Text>
+        <Text>{props.position}</Text>
       </View>
       <Pressable style={style.edit}>
         <MaterialCommunityIcons
@@ -53,4 +49,4 @@ const OrderItem = (props: any) => {
   ); //content-save-edit-outline
 };
 
-export default OrderItem;
+export default EmployeeItem;

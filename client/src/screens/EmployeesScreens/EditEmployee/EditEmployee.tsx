@@ -14,11 +14,11 @@ import OrderService from "../../../services/OrderService";
 
 import axios from "axios";
 
-import { style } from "./EditOrderStyles";
+import { style } from "./EditEmployeeStyles";
 
 type Screen2RouteProp = RouteProp<Record<string, { data: any }>, "Screen2">;
 
-const EditOrderScreen = ({ navigation, props }: any) => {
+const EditEmployeeScreen = ({ navigation, props }: any) => {
   const route = useRoute<Screen2RouteProp>();
   const { data } = route.params;
 
@@ -292,4 +292,4 @@ const EditOrderScreen = ({ navigation, props }: any) => {
   );
 };
 
-export default EditOrderScreen;
+export default EditEmployeeScreen;

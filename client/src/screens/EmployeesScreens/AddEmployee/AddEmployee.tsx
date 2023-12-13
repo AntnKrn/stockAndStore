@@ -13,11 +13,11 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 import axios from "axios";
 
-import { style } from "./AddOrderStyles";
+import { style } from "./AddEmployeeStyles";
 import OrderService from "../../../services/OrderService";
 import { useTypedSelector } from "../../../hooks/useTypesSelector";
 
-const AddOrderScreen = ({ navigation }: any) => {
+const AddEmployeeScreen = ({ navigation }: any) => {
   const { userData } = useTypedSelector((state) => state.auth);
 
   const [isLoaded, setIsLoaded] = useState<boolean>();
@@ -248,4 +248,4 @@ const AddOrderScreen = ({ navigation }: any) => {
   );
 };
 
-export default AddOrderScreen;
+export default AddEmployeeScreen;

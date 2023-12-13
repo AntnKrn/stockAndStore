@@ -6,41 +6,24 @@ import {
 } from "react-native";
 import axios from "axios";
 
-import { style } from "./OrdersStyles";
-import OrderItem from "../../../components/OrderItem/OrderItem";
+import { style } from "./EmployeesStyles";
 import SearchField from "../../../components/Search/Search";
 import { useIsFocused } from "@react-navigation/native";
 import OrderService from "../../../services/OrderService";
+import EmployeeItem from "../../../components/EmployeeItem/EmployeeItem";
 
-const ProductsScreen = ({ navigation }: any) => {
-  const [orders, setOrders] = useState<any>();
+const EmployeesScreen = ({ navigation }: any) => {
+  const [employees, setEmployees] = useState<any>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
   const [refresh, setRefresh] = useState<boolean>(false);
-
+  console.log("dsadsda");
   const isFocused = useIsFocused();
 
-  const filteredProducts = isLoaded
-    ? orders.filter((el: any) => {
-        return el?.clientName?.toLowerCase().includes(searchText.toLowerCase());
-      })
-    : [];
-
-  const getProducts = async () => {
+  const getEmployees = async () => {
     try {
-      const response: any = await axios.get("http://localhost:3000/orders");
-      const clientsResponse = await axios.get("http://localhost:3000/clients");
-      response.data.forEach((el: any) => {
-        clientsResponse.data.forEach((cl: any) => {
-          if (el.IDclient === null) {
-            el.clientName = "Клиент удален";
-          }
-          if (el.IDclient === cl.clientID) {
-            el.clientName = cl.fullname;
-          }
-        });
-      });
-      setOrders(response.data);
+      const response = await axios.get("http://localhost:3000/employees/");
+      setEmployees(response.data);
       setIsLoaded(true);
     } catch (err) {
       console.log(err);
@@ -49,7 +32,7 @@ const ProductsScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     if (isFocused || refresh) {
-      getProducts();
+      getEmployees();
     }
   }, [isFocused, refresh]);
 
@@ -58,8 +41,8 @@ const ProductsScreen = ({ navigation }: any) => {
     setRefresh(true);
   };
 
-  const onPressViewHandler = (order: any) => {
-    navigation.navigate("ViewOrderScreen", { data: order });
+  const onPressViewHandler = (employee: any) => {
+    navigation.navigate("ViewEmployeeScreen", { data: employee });
   };
 
   const onPressEditHandler = (order: any) => {
@@ -79,20 +62,15 @@ const ProductsScreen = ({ navigation }: any) => {
       />
 
       {isLoaded
-        ? filteredProducts.map((el: any, index: number) => {
+        ? employees.map((el: any, index: number) => {
             return (
-              <OrderItem
-                order={el}
+              <EmployeeItem
                 key={index}
-                clientName={el.clientName}
-                IDproduct={el.IDproduct}
-                quantity={el.quantity}
-                price={el.price}
+                fullname={el.fullname}
+                position={el.position}
                 pic={index}
-                data={el.data}
-                IDemployee={el.IDemployee}
                 onPressEditHandler={() => onPressEditHandler(el)}
-                onPressDeleteHandler={() => onPressDeleteHandler(el.orderID)}
+                onPressDeleteHandler={() => onPressDeleteHandler(el.employeeID)}
                 onPressViewHandler={() => onPressViewHandler(el)}
               />
             );
@@ -102,4 +80,4 @@ const ProductsScreen = ({ navigation }: any) => {
   );
 };
 
-export default ProductsScreen;
+export default EmployeesScreen;
